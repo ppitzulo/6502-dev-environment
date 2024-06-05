@@ -14,6 +14,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-s WASM=1 -s MODULARIZE=1 -s EXPORT_NAME=MyModule -s
 set(SOURCES
     Cpu.cpp
     Bus.cpp
+    Bindings.cpp
 )
 
 # Add the executable
