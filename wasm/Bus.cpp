@@ -1,9 +1,10 @@
 #include "Cpu.h"
 #include "Bus.h"
 
-Bus::Bus() : cpu(*this)
+Bus::Bus() //: cpu(*this)
 {
     ram = new uint8_t[0xFFFF];
+    cpu = new CPU(*this);
     // ram = new uint8_t[0xFFFF];
     // ram[0x0801] = 0x0088; not yet sure what this does yet
 }
@@ -11,6 +12,7 @@ Bus::Bus() : cpu(*this)
 Bus::~Bus()
 {
     delete[] ram;
+    delete cpu;
 }
 
 uint8_t Bus::readMemory(uint16_t address)
@@ -25,5 +27,5 @@ void Bus::writeMemory(uint16_t address, uint8_t data)
 
 void Bus::run()
 {
-    cpu.run(29830);
+    cpu->run(29830);
 }

@@ -16,7 +16,7 @@ public:
 
 private:
     uint8_t* ram;
-    CPU cpu;
+    CPU *cpu;
 };
 
 
