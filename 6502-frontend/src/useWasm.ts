@@ -9,16 +9,15 @@ declare global {
 
 export const useWasm = () => {
   const [wasmModule, setWasmModule] = useState<any>(null);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   useEffect(() => {
     const loadWasm = async () => {
       try {
-        console.log("Attempting to load Wasm module...");
         if (window.MyModule) {
-          console.log("window.MyModule is defined, loading module...");
           const module = await window.MyModule();
-          console.log("Wasm module loaded:", module);
           setWasmModule(module);
+          setIsReady(true);
         } else {
           console.error("window.MyModule is not defined.");
         }
@@ -30,5 +29,5 @@ export const useWasm = () => {
     loadWasm();
   }, []);
 
-  return wasmModule;
+  return { wasmModule, isReady};
 };
