@@ -1,0 +1,10 @@
+.registers {
+    display: flex;
+    font-size: 1.5rem;
+    gap: 1rem;
+}
+
+.status-flags {
+    display: column;
+    font-size: 1.5rem;
+}

@@ -1,7 +1,13 @@
 import { useState, ChangeEvent } from 'react';
 
 const Editor = ( { bus, wasmModule }: { bus: any, wasmModule: any } ) => {
-  const [assemblyCode, setAssemblyCode] = useState<string>('');
+  const [assemblyCode, setAssemblyCode] = useState<string>(`    .org $0800
+  ldx #0
+start:
+  stx $0200
+  inx
+  stx $0201
+  brk`);
   const [error, setError] = useState<string>('');
 
   const handleAssemblyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
