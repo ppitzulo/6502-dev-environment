@@ -48,12 +48,11 @@ start:
 
   return (
     <div>
-      <h1>6502 Assembler</h1>
       <textarea
         value={assemblyCode}
         onChange={handleAssemblyChange}
-        rows={10}
-        cols={50}
+        rows={30}
+        cols={100}
         placeholder="Enter your assembly code here..."
       ></textarea>
       <br />

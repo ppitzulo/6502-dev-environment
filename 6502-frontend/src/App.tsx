@@ -48,11 +48,13 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>React and WebAssembly Emulator</h1>
-      {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} />}
       <RegisterView registers={registers} />
-      <button onClick={runCpu}>Run CPU</button>
-      <button onClick={resetCpu}>Reset CPU</button>
+      <div className="emulator">
+        <h1>6502 Emulator</h1>
+        {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} />}
+        <button onClick={runCpu}>Run CPU</button>
+        <button onClick={resetCpu}>Reset CPU</button>
+      </div>
       {/* <button onClick={getRegisters}>Get Registers</button> */}
     </div>
   );

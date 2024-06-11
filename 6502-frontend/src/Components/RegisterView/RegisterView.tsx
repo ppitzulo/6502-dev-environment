@@ -1,4 +1,4 @@
-import './RegisterView.css'
+import './RegisterView.css';
 
 const RegisterView = ({ registers }: { registers: any }) => {
     if (!registers) return null;
@@ -6,24 +6,60 @@ const RegisterView = ({ registers }: { registers: any }) => {
     return (
         <div className="register-display">
             <h2>CPU Registers</h2>
-            <table>
-                <tbody className="registers">
-                    <tr><td>A:</td><td>{registers.A.toString(16).toUpperCase()}</td></tr>
-                    <tr><td>X:</td><td>{registers.X.toString(16).toUpperCase()}</td></tr>
-                    <tr><td>Y:</td><td>{registers.Y.toString(16).toUpperCase()}</td></tr>
-                    <tr><td>PC:</td><td>{registers.PC.toString(16).toUpperCase()}</td></tr>
-                    <tr><td>SP:</td><td>{registers.SP.toString(16).toUpperCase()}</td></tr>
-                </tbody>
-                <tbody className="status-flags">
-                    <tr><td>Carry Flag:</td><td>{registers.carryFlag ? 'True' : 'False'}</td></tr>
-                    <tr><td>Zero Flag:</td><td>{registers.zeroFlag ? 'True' : 'False'}</td></tr>
-                    <tr><td>Interrupt Disable Flag:</td><td>{registers.interruptDisableFlag ? 'True' : 'False'}</td></tr>
-                    <tr><td>Decimal Mode Flag:</td><td>{registers.decimalModeFlag ? 'True' : 'False'}</td></tr>
-                    <tr><td>Break Command Flag:</td><td>{registers.breakCommandFlag ? 'True' : 'False'}</td></tr>
-                    <tr><td>Overflow Flag:</td><td>{registers.overflowFlag ? 'True' : 'False'}</td></tr>
-                    <tr><td>Negative Flag:</td><td>{registers.negativeFlag ? 'True' : 'False'}</td></tr>
-                </tbody>
-            </table>
+            <div className="register-section">
+                <div className="register">
+                    <span className="label">A</span>
+                    <span className="value">0x{registers.A.toString(16).toUpperCase()}</span>
+                </div>
+                <div className="register">
+                    <span className="label">X</span>
+                    <span className="value">0x{registers.X.toString(16).toUpperCase()}</span>
+                </div>
+                <div className="register">
+                    <span className="label">Y</span>
+                    <span className="value">0x{registers.Y.toString(16).toUpperCase()}</span>
+                </div>
+                <div className="register">
+                    <span className="label">PC</span>
+                    <span className="value">0x{registers.PC.toString(16).toUpperCase()}</span>
+                </div>
+                <div className="register">
+                    <span className="label">SP</span>
+                    <span className="value">0x{registers.SP.toString(16).toUpperCase()}</span>
+                </div>
+            </div>
+
+            <h2>Status Flags</h2>
+            <div className="flag-section">
+                <div className="register">
+                    <span className="label">C</span>
+                    <span className="value">{registers.carryFlag ? 'True' : 'False'}</span>
+                </div>
+                <div className="register">
+                    <span className="label">Z</span>
+                    <span className="value">{registers.zeroFlag ? 'True' : 'False'}</span>
+                </div>
+                <div className="register">
+                    <span className="label">I</span>
+                    <span className="value">{registers.interruptDisableFlag ? 'True' : 'False'}</span>
+                </div>
+                <div className="register">
+                    <span className="label">D</span>
+                    <span className="value">{registers.decimalModeFlag ? 'True' : 'False'}</span>
+                </div>
+                <div className="register">
+                    <span className="label">B</span>
+                    <span className="value">{registers.breakCommandFlag ? 'True' : 'False'}</span>
+                </div>
+                <div className="register">
+                    <span className="label">O</span>
+                    <span className="value">{registers.overflowFlag ? 'True' : 'False'}</span>
+                </div>
+                <div className="register">
+                    <span className="label">N</span>
+                    <span className="value">{registers.negativeFlag ? 'True' : 'False'}</span>
+                </div>
+            </div>
         </div>
     );
 };
