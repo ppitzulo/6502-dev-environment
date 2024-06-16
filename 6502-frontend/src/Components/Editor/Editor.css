@@ -1,0 +1,11 @@
+.editor {
+    width: 100%;
+    /* height: 30vh; */
+    /* width: 100vw; */
+    /* height: 100vh; */
+}
+
+.assemble-button-container {
+    display: inline-flex;
+    gap: 1rem;
+}

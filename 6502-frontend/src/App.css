@@ -16,3 +16,7 @@
 .emulator {
   grid-area: emulator;
 }
+
+.header {
+  text-align: center;
+}

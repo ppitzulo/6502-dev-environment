@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from 'react';
+import './Editor.css';
 
 const Editor = ( { bus, wasmModule }: { bus: any, wasmModule: any } ) => {
   const [assemblyCode, setAssemblyCode] = useState<string>(`    .org $0800
@@ -9,9 +10,11 @@ start:
   stx $0201
   brk`);
   const [error, setError] = useState<string>('');
+  const [isAssembled, setIsAssembled] = useState<boolean>(false);
 
   const handleAssemblyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setAssemblyCode(e.target.value);
+    setIsAssembled(false);
   };
 
   const handleSubmit = async () => {
@@ -38,6 +41,7 @@ start:
         }
 
       bus.loadProgram(codeArray, 0x8000);
+      setIsAssembled(true);
       
       setError('');
     } catch (err) {
@@ -47,16 +51,19 @@ start:
   };
 
   return (
-    <div>
+    <div className="editor">
       <textarea
+        className="editor"
         value={assemblyCode}
         onChange={handleAssemblyChange}
-        rows={30}
-        cols={100}
         placeholder="Enter your assembly code here..."
       ></textarea>
       <br />
-      <button onClick={handleSubmit}>Assemble</button>
+      <div className="assemble-button-container">
+        <button onClick={handleSubmit}>Assemble</button>
+        {isAssembled && <p style={{ color: 'green' }}>Code assembled successfully!</p>}
+        {!isAssembled && <p style={{ color: 'red' }}>Not yet assembled</p>}
+      </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {/* {machineCode && (
         <div>

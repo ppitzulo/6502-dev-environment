@@ -50,7 +50,7 @@ const App: React.FC = () => {
     <div className="App">
       <RegisterView registers={registers} />
       <div className="emulator">
-        <h1>6502 Emulator</h1>
+        <h1 className="header">6502 Emulator</h1>
         {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} />}
         <button onClick={runCpu}>Run CPU</button>
         <button onClick={resetCpu}>Reset CPU</button>
