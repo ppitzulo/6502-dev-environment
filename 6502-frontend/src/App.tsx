@@ -57,7 +57,6 @@ const App: React.FC = () => {
         <button onClick={resetCpu}>Reset CPU</button>
       </div>
       {registers && <Trace  cpu={cpu} bus={bus} PC={registers.PC} />}
-      {/* <button onClick={getRegisters}>Get Registers</button> */}
     </div>
   );
 };

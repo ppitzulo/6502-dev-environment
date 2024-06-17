@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Trace.css';
 
 interface TraceProps {
@@ -13,6 +13,7 @@ interface Operation {
     A: number;
     X: number;
     Y: number;
+    P: number;
     SP: number;
     status: number;
     CYC: number;
@@ -35,38 +36,35 @@ const Trace = ({ cpu, bus, PC }: TraceProps) => {
 
     return (
         <div className="trace">
-            <h2>Trace</h2>
-            <table className="trace-table">
-                <thead>
-                    <tr>
-                        <th>addr</th>
-                        <th>instr</th>
-                        <th>disass</th>
-                        <th>A</th>
-                        <th>X</th>
-                        <th>Y</th>
-                        <th>SP</th>
-                        {/* <th>nvdizc</th> */}
-                        <th>cycles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {traceLog.map((operation, index) => (
-                        <tr key={index}>
-                            <td>{`0x${PC.toString(16)}`}</td>
-                            <td>{`0x${operation.opcode.toString(16)}`}</td>
-                            <td>{operation.name}</td>
-                            <td>{`0x${operation.A.toString(16)}`}</td>
-                            <td>{`0x${operation.X.toString(16)}`}</td>
-                            <td>{`0x${operation.Y.toString(16)}`}</td>
-                            <td>{`0x${operation.SP.toString(16)}`}</td>
-                            {/* <td>{`0x${operation.status.toString(16)}`}</td> */}
-                            <td>{`0x${operation.CYC.toString(16)}`}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+            <h2 className='header'>Trace</h2>
+
+            <div className="trace-header">
+                <div>addr</div>
+                <div>instr</div>
+                <div>disass</div>
+                <div>A</div>
+                <div>X</div>
+                <div>Y</div>
+                <div>NVBDIZC</div>
+                <div>SP</div>
+                <div>cycles</div>
+            </div>
+            <div className="trace-body">
+                {traceLog.map((operation, index) => (
+                    <div className="trace-row" key={index}>
+                        <div >{`${PC.toString(16)}`}</div>
+                        <div >{`${operation.opcode.toString(16)}`}</div>
+                        <div >{operation.name}</div>
+                        <div >{`${operation.A.toString(16)}`}</div>
+                        <div >{`${operation.X.toString(16)}`}</div>
+                        <div >{`${operation.Y.toString(16)}`}</div>
+                        <div >{`${operation.P.toString(2)}`}</div>
+                        <div >{`${operation.SP.toString(16)}`}</div>
+                        <div>{`${operation.CYC.toString(16)}`}</div>
+                    </div>
+                ))}
+            </div>
+        </div >
     );
 };
 

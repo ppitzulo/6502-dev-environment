@@ -3,9 +3,11 @@
     /* height: 30vh; */
     /* width: 100vw; */
     /* height: 100vh; */
+    height: 100%;
 }
 
 .assemble-button-container {
     display: inline-flex;
     gap: 1rem;
 }
+

@@ -1,34 +1,63 @@
 .trace {
-    /* font-family: monospace; */
     padding: 10px;
-    /* border: 1px solid #ccc; */
     border-radius: 4px;
-    font-size: .8rem;
+    font-size: 0.8rem;
+    grid-area: trace;
+    max-width: 500px;
+    min-width: 25rem;
+    justify-self: center;
+}
+
+.header {
+    color: white;
 }
 
 .trace h2 {
     margin-bottom: 10px;
 }
 
-.trace .trace-table {
-    width: 100%;
-    border-collapse: collapse;
+.trace-header, .trace-row {
+    display: flex;
+    justify-content: space-around;
     text-align: center;
 }
 
-.trace .trace-table th,
-.trace .trace-table td {
-    border: 1px solid #ccc;
-    padding: 5px;
-    text-align: left;
-}
-
-.trace .trace-table th {
-    /* background-color: #f0f0f0; */
+.trace-header {
     background-color: #3b3b3b;
+    padding: 0.5rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
     color: white;
+    font-size: .8rem;
 }
 
-.trace .trace-table tr {
+.trace-body {
+    background-color: #2b2b2b;
+    /* padding: 0.5rem; */
+    color: white;
+    font-size: .8rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    overflow: scroll;
+    max-height: 20rem;
+}
+
+.trace-row {
     color: lightgreen;
+}
+
+.trace-row:last-child {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.trace-header div, .trace-row div {
+    flex: 1;
+    /* padding: 0.5rem; */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.trace-row:nth-child(even) {
+    background-color: #3b3b3b;
 }
