@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useWasm } from './useWasm';
 import Editor from './Components/Editor/Editor';
 import RegisterView from './Components/RegisterView/RegisterView';
+import Trace from './Components/Trace/Trace';
 import './App.css';
 
 const App: React.FC = () => {
@@ -55,6 +56,7 @@ const App: React.FC = () => {
         <button onClick={runCpu}>Run CPU</button>
         <button onClick={resetCpu}>Reset CPU</button>
       </div>
+      {registers && <Trace  cpu={cpu} bus={bus} PC={registers.PC} />}
       {/* <button onClick={getRegisters}>Get Registers</button> */}
     </div>
   );
