@@ -4,6 +4,7 @@ import Editor from './Components/Editor/Editor';
 import RegisterView from './Components/RegisterView/RegisterView';
 import Trace from './Components/Trace/Trace';
 import './App.css';
+import { AssemblyState } from './Interfaces/AssemblyStateInterfaces';
 
 const App: React.FC = () => {
   const wasmResults = useWasm();
@@ -11,6 +12,10 @@ const App: React.FC = () => {
   const [cpu, setCpu] = useState<any>(null);
   const [wasmModule, setWasmModule] = useState<any>(null);
   const [registers, setRegisters] = useState<any>(null);
+  const [assemblyState, setAssemblyState] = useState<AssemblyState>({
+    isSubmitted: false,
+    isAssembled: false,
+  })
 
   useEffect(() => {
     if (wasmResults.isReady && !cpu) {
@@ -46,15 +51,27 @@ const App: React.FC = () => {
   };
 
 
+  const toggleSubmitted = () => {
+    setAssemblyState(prevState => ({
+      ...prevState,
+      isSubmitted: !prevState.isSubmitted
+    }));
+  };
+
 
   return (
     <div className="App">
       <RegisterView registers={registers} />
       <div className="emulator">
-        <h1 className="header">6502 Emulator</h1>
-        {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} />}
-        <button onClick={runCpu}>Run CPU</button>
-        <button onClick={resetCpu}>Reset CPU</button>
+        <h1 className="emulator-header">6502 Emulator</h1>
+        {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} assemblyState={assemblyState} setAssemblyState={setAssemblyState}/>}
+        <div className="emulator-controls">
+          <button onClick={runCpu}>Run CPU</button>
+          <button onClick={resetCpu}>Reset CPU</button>
+          <button onClick={toggleSubmitted}>Assemble</button>
+          {assemblyState.isAssembled && <p style={{ color: 'green' }}>Code assembled successfully!</p>}
+          {!assemblyState.isAssembled && <p style={{ color: 'red' }}>Not yet assembled</p>}
+        </div>
       </div>
       {registers && <Trace  cpu={cpu} bus={bus} PC={registers.PC} />}
     </div>

@@ -5,9 +5,3 @@
     /* height: 100vh; */
     height: 100%;
 }
-
-.assemble-button-container {
-    display: inline-flex;
-    gap: 1rem;
-}
-

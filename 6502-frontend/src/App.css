@@ -2,11 +2,11 @@
   display: grid;
   gap: 1rem;
   width: 100vw;
-  grid-template-areas: 
+  height: 100vh;
+  grid-template-areas:
     "registers emulator trace"
     "registers emulator trace"
     "registers emulator trace";
-
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   align-items: center;
@@ -16,6 +16,33 @@
   grid-area: emulator;
 }
 
-.header {
+.emulator-header {
+  /* Set background text of emulator header to gradient */
   text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #43cea2, #185a9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.emulator-controls {
+  display: flex;
+  margin-top: 1rem;
+  gap: 1rem;
+  align-items: center;
+}
+
+.emulator-controls button {
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3b3b3b;
+  color: white;
+}
+
+.emulator-controls button:hover {
+  background-color: #2b2b2b;
 }
