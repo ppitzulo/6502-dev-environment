@@ -22,16 +22,19 @@ interface Operation {
 
 const Trace = ({ cpu, bus, PC }: TraceProps) => {
     const [traceLog, setTraceLog] = useState<Operation[]>([]);
+    const [prevPC, setPrevPC] = useState<number>(PC); // Track previous PC to detect changes
 
     useEffect(() => {
-        // Get the current opcode from the bus
-        const opcode = bus.readMemory(PC);
+        if (PC !== prevPC) {
+            // Get the current opcode from the bus
+            const opcode = bus.readMemory(PC);
 
-        // Get the disassembled operation details
-        const operation = cpu.dissassemble(opcode);
+            // Get the disassembled operation details
+            const operation = cpu.dissassemble(opcode);
 
-        // Add the new operation to the trace log
-        setTraceLog(prevLog => [...prevLog, { ...operation, opcode, operand: `0x${(PC).toString(16)}` }]);
+            // Add the new operation to the trace log
+            setTraceLog(prevLog => [...prevLog, { ...operation, opcode, operand: `0x${(PC).toString(16)}` }]);
+        }
     }, [PC, bus, cpu]);
 
     return (

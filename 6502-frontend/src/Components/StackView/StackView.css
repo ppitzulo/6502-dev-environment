@@ -1,6 +1,5 @@
 .stack {
     padding: 20px;
-    background-color: #3b3b3b;
     color: #fff;
     border-radius: 8px;
     margin-top: 20px;
@@ -11,24 +10,24 @@
   
   .stack-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     font-weight: bold;
     border-bottom: 1px solid #555;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-    margin: 0 2rem;
+    background-color: #3b3b3b;
+    padding: 0.5rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
   }
   
   .stack-body {
     max-height: 300px;
     overflow-y: auto;
-    margin-top: .5rem;
   }
   
   .stack-row {
     display: flex;
-    justify-content: space-between;
-    padding: .25rem 2rem;
+    justify-content: space-around;
+    padding: 0.5rem 0;
     color: lightgreen;
     position: relative;
   }
@@ -39,11 +38,14 @@
   
   .header {
     text-align: center;
+    margin-bottom: 10px;
   }
 
   .stack-row.highlight .address::before {
     content: '→ ';
     color: red;
     position: absolute;
-    left: 10px;
+    left: 30px;
+    transform: translateY(-30%);
+    font-size: 2rem;
   }

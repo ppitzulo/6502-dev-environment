@@ -39,7 +39,7 @@ const App: React.FC = () => {
 
   const runCpu = () => {
     if (cpu) {
-      cpu.run(); // Run for 1000 cycles
+      cpu.run(); // run next instruction (TODO: rename this to step and create a different run method that runs continuously)
       setRegisters(cpu.getRegisters());
     }
   };
