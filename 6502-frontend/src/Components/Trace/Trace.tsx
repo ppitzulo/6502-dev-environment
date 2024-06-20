@@ -31,7 +31,7 @@ const Trace = ({ cpu, bus, PC }: TraceProps) => {
         const operation = cpu.dissassemble(opcode);
 
         // Add the new operation to the trace log
-        setTraceLog(prevLog => [...prevLog, { ...operation, opcode, operand: `0x${PC.toString(16)}` }]);
+        setTraceLog(prevLog => [...prevLog, { ...operation, opcode, operand: `0x${(PC).toString(16)}` }]);
     }, [PC, bus, cpu]);
 
     return (

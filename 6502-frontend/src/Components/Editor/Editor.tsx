@@ -21,7 +21,6 @@ start:
 
   const handleAssemblyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setAssemblyCode(e.target.value);
-    toggleBooleanState('isAssembled');
   };
 
   useEffect(() => {

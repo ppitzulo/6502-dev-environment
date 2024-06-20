@@ -5,6 +5,7 @@ import RegisterView from './Components/RegisterView/RegisterView';
 import Trace from './Components/Trace/Trace';
 import './App.css';
 import { AssemblyState } from './Interfaces/AssemblyStateInterfaces';
+import StackView from './Components/StackView/StackView';
 
 const App: React.FC = () => {
   const wasmResults = useWasm();
@@ -58,7 +59,6 @@ const App: React.FC = () => {
     }));
   };
 
-
   return (
     <div className="App">
       <RegisterView registers={registers} />
@@ -74,6 +74,7 @@ const App: React.FC = () => {
         </div>
       </div>
       {registers && <Trace  cpu={cpu} bus={bus} PC={registers.PC} />}
+      {bus && <StackView bus={bus} SP={registers.SP} />}
     </div>
   );
 };

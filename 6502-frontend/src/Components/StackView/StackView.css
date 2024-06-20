@@ -1,0 +1,49 @@
+.stack {
+    padding: 20px;
+    background-color: #3b3b3b;
+    color: #fff;
+    border-radius: 8px;
+    margin-top: 20px;
+    min-width: 380px;
+    grid-area: stack-view;
+    justify-self: center;
+  }
+  
+  .stack-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    border-bottom: 1px solid #555;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin: 0 2rem;
+  }
+  
+  .stack-body {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: .5rem;
+  }
+  
+  .stack-row {
+    display: flex;
+    justify-content: space-between;
+    padding: .25rem 2rem;
+    color: lightgreen;
+    position: relative;
+  }
+  
+  .stack-row:nth-child(even) {
+    background-color: #2b2b2b;
+  }
+  
+  .header {
+    text-align: center;
+  }
+
+  .stack-row.highlight .address::before {
+    content: '→ ';
+    color: red;
+    position: absolute;
+    left: 10px;
+  }
