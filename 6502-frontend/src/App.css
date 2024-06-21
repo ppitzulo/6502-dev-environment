@@ -48,3 +48,11 @@
 .emulator-controls button:hover {
   background-color: #2b2b2b;
 }
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}

@@ -10,17 +10,16 @@ start:
   inx
   stx $0201
   brk`);
-  const [error, setError] = useState<string>('');
 
-  const toggleBooleanState = (key: string) => {
-    setAssemblyState((prevState: any) => ({
-      ...prevState,
-      [key]: !prevState[key]
-    }));
-  };
 
   const handleAssemblyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setAssemblyCode(e.target.value);
+    setAssemblyState((prevState: any) => ({
+      ...prevState,
+      isSubmitted: false,
+      isAssembled: false,
+      isError: false
+    }));
   };
 
   useEffect(() => {
@@ -49,14 +48,20 @@ start:
           }
 
           bus.loadProgram(codeArray, 0x8000);
-          toggleBooleanState('isAssembled');
-          toggleBooleanState('isSubmitted');
+          setAssemblyState((prevState: any) => ({
+          ...prevState,
+          isSubmitted: false,
+          isAssembled: true
+          }));
           
           
-          setError('');
         } catch (err) {
           console.error(err);
-          setError('Failed to assemble the code. Please try again.');
+          setAssemblyState((prevState: any) => ({
+            ...prevState,
+            isSubmitted: false,
+            isError: true
+          }));
         }
       }
     };
@@ -72,7 +77,6 @@ start:
         onChange={handleAssemblyChange}
         placeholder="Enter your assembly code here..."
       ></textarea>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
