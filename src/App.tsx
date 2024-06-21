@@ -6,6 +6,7 @@ import Trace from './Components/Trace/Trace';
 import './App.css';
 import { AssemblyState, Operation } from './Interfaces/AssemblyStateInterfaces';
 import StackView from './Components/StackView/StackView';
+import Spinner from './Components/Spinner/Spinner';
 
 
 const App: React.FC = () => {
@@ -69,6 +70,7 @@ const App: React.FC = () => {
     }
 
     if (assemblyState.isSubmitted && !assemblyState.isError) {
+      return <Spinner />
       return <div className="info-message">Assembling code...</div>;
     }
     
