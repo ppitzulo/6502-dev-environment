@@ -33,13 +33,19 @@ const App: React.FC = () => {
         // Fetch CPU registers
         const registers = cpuInstance.getRegisters();
         setRegisters(registers);
-        console.log(registers);
         setWasmModule(wasmResults.wasmModule);
       } catch (error) {
         console.error("Error creating Bus or CPU instance:", error);
       }
     }
   }, [wasmResults, cpu]);
+
+  useEffect(() => {
+    // Reset cpu registers when assembly code changes
+    if (assemblyState.isSubmitted) {
+      resetCpu();
+    }
+  }, [assemblyState])
 
   const runCpu = () => {
     if (cpu) {

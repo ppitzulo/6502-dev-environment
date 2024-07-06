@@ -1,20 +1,29 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
-import './Editor.css';
+import React, { useState, useRef, useEffect } from 'react';
+import { Controlled as CodeMirror } from 'react-codemirror2';
 import { AssemblyState } from '../../Interfaces/AssemblyStateInterfaces';
+import './Editor.css';
+import '../../mos6502-mode';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/dracula.css'
+import 'codemirror/theme/monokai.css'
+import { Editor as CodeMirrorEditor } from 'codemirror';
 
-const Editor = ( { bus, wasmModule, assemblyState, setAssemblyState }: { bus: any, wasmModule: any, assemblyState: AssemblyState, setAssemblyState: React.Dispatch<React.SetStateAction<AssemblyState>>} ) => {
-  const [assemblyCode, setAssemblyCode] = useState<string>(`    .org $0800
+const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState }: { bus: any, wasmModule: any, assemblyState: AssemblyState, setAssemblyState: React.Dispatch<React.SetStateAction<AssemblyState>> }) => {
+  const initialAssemblyCode = `    .org $0800
   ldx #0
-start:
+  start:
   stx $0200
   inx
   stx $0201
-  brk`);
+  brk`;
 
+  const [assemblyCode, setAssemblyCode] = useState<string>(initialAssemblyCode);
+  const editorRef = useRef<CodeMirrorEditor | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const handleAssemblyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setAssemblyCode(e.target.value);
-    setAssemblyState((prevState: any) => ({
+  const handleChange = (editor: any, data: any, value: string) => {
+    setAssemblyCode(value);
+    setAssemblyState((prevState: AssemblyState) => ({
       ...prevState,
       isSubmitted: false,
       isAssembled: false,
@@ -33,7 +42,6 @@ start:
             },
             body: assemblyCode,
           });
-
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
@@ -48,16 +56,16 @@ start:
           }
 
           bus.loadProgram(codeArray, 0x8000);
-          setAssemblyState((prevState: any) => ({
-          ...prevState,
-          isSubmitted: false,
-          isAssembled: true
+          
+          setAssemblyState((prevState: AssemblyState) => ({
+            ...prevState,
+            isSubmitted: false,
+            isAssembled: true
           }));
-          
-          
+
         } catch (err) {
           console.error(err);
-          setAssemblyState((prevState: any) => ({
+          setAssemblyState((prevState: AssemblyState) => ({
             ...prevState,
             isSubmitted: false,
             isError: true
@@ -67,17 +75,29 @@ start:
     };
 
     handleSubmit();
-  }, [assemblyState.isSubmitted]);
+  }, [assemblyState.isSubmitted, assemblyCode, bus, wasmModule, setAssemblyState]);
+
 
   return (
-    <div className="editor">
-      <textarea
-        className="editor"
-        value={assemblyCode}
-        onChange={handleAssemblyChange}
-        placeholder="Enter your assembly code here..."
-      ></textarea>
-    </div>
+    <CodeMirror
+      value={assemblyCode}
+      options={{
+        mode: 'mos6502',
+        theme: 'dracula',
+        lineNumbers: true,
+      }}
+      onBeforeChange={handleChange}
+      editorDidMount={editorElement => {
+        (editorRef as React.MutableRefObject<CodeMirrorEditor>).current = editorElement;
+      }}
+      editorWillUnmount={() => {
+        const editorWrapper = (editorRef as React.MutableRefObject<CodeMirrorEditor>).current.getWrapperElement();
+        if (editorWrapper) editorWrapper.remove();
+        if (wrapperRef.current) {
+          (wrapperRef.current as { hydrated: boolean }).hydrated = false;
+        }
+      }}
+    />
   );
 };
 
