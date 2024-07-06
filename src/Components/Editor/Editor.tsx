@@ -51,6 +51,9 @@ const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState }: { bus: any
 
           const codeArray = new wasmModule.VectorUint8();
 
+          // Clear memory before writing in new instructions
+          bus.clearMemory();
+
           for (let i = 0; i < compiledCode.length; i++) {
             codeArray.push_back(compiledCode[i]);
           }
