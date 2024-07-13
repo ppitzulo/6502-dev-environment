@@ -1,10 +1,9 @@
 .trace {
-    padding: 10px;
+    padding: 5px;
     border-radius: 4px;
     font-size: 0.8rem;
     grid-area: trace;
-    max-width: 500px;
-    min-width: 25rem;
+    width: 75%;
     justify-self: center;
 }
 
@@ -18,14 +17,16 @@
 }
 
 .trace-header, .trace-row {
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* 10 columns of equal width */
+    column-gap: .1rem;
+    gap: .1rem;
     text-align: center;
 }
 
 .trace-header {
     background-color: #3b3b3b;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     color: white;
@@ -34,17 +35,17 @@
 
 .trace-body {
     background-color: #2b2b2b;
-    /* padding: 0.5rem; */
     color: white;
     font-size: .8rem;
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    overflow: scroll;
-    max-height: 20rem;
+    overflow-y: auto;
+    max-height: 8rem;
 }
 
 .trace-row {
     color: lightgreen;
+    padding: 0.2rem 0; /* Reduce padding for more compactness */
 }
 
 .trace-row:last-child {
@@ -53,10 +54,7 @@
 }
 
 .trace-header div, .trace-row div {
-    flex: 1;
-    /* padding: 0.5rem; */
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding: 0.2rem; /* Reduce padding for more compactness */
 }
 
 .trace-row:nth-child(even) {

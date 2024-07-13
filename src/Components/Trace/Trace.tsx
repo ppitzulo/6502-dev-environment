@@ -6,6 +6,7 @@ interface TraceProps {
     cpu: any;
     bus: any;
     PC: number;
+    cycles: number;
     traceLog: Operation[];
     setTraceLog: React.Dispatch<React.SetStateAction<Operation[]>>;
 }
@@ -22,8 +23,11 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
             // Get the disassembled operation details
             const operation = cpu.dissassemble(opcode);
 
+            // Get the current number of cycles
+            const cycles = cpu.getCycles();
+
             // Add the new operation to the trace log
-            setTraceLog(prevLog => [...prevLog, { ...operation, opcode, PC: `0x${(PC).toString(16)}` }]);
+            setTraceLog(prevLog => [...prevLog, { ...operation, opcode, cycles, PC: `${(PC).toString(16)}` }]);
         }
         setPrevPC(PC);
     }, [PC]);
@@ -34,27 +38,29 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
 
             <div className="trace-header">
                 <div>PC</div>
-                <div>instr</div>
-                <div>disass</div>
+                <div>Instr</div>
+                <div>Operand</div>
+                <div>Disass</div>
                 <div>A</div>
                 <div>X</div>
                 <div>Y</div>
-                <div>NVBDIZC</div>
                 <div>SP</div>
-                <div>cycles</div>
+                <div>NV-BDIZC</div>
+                <div>Cycles</div>
             </div>
             <div className="trace-body">
                 {traceLog.map((operation, index) => (
                     <div className="trace-row" key={index}>
-                        <div>{`${operation.PC.toString(16)}`}</div>
-                        <div>{`${operation.opcode.toString(16)}`}</div>
+                        <div>{`0x${operation.PC.toString(16).padStart(4, '0')}`}</div>
+                        <div>{`0x${operation.opcode.toString(16)}`}</div>
+                        <div>{operation.operand}</div>
                         <div>{operation.name}</div>
-                        <div>{`${operation.A.toString(16)}`}</div>
-                        <div>{`${operation.X.toString(16)}`}</div>
-                        <div>{`${operation.Y.toString(16)}`}</div>
+                        <div>{`0x${operation.A.toString(16)}`}</div>
+                        <div>{`0x${operation.X.toString(16)}`}</div>
+                        <div>{`0x${operation.Y.toString(16)}`}</div>
+                        <div>{`0x${operation.SP.toString(16)}`}</div>
                         <div>{`${operation.P.toString(2)}`}</div>
-                        <div>{`${operation.SP.toString(16)}`}</div>
-                        <div>{`${operation.CYC.toString(16)}`}</div>
+                        <div>{`${operation.cycles}`}</div>
                     </div>
                 ))}
             </div>
