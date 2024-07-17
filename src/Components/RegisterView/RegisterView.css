@@ -1,8 +1,9 @@
 .register-display {
     margin: 20px;
-    grid-area: registers;
-    max-width: 200px;
+    /* grid-area: registers; */
     justify-self: center;
+    display: flex;
+    gap: 4rem;
 }
 
 .register-display h2 {
@@ -12,13 +13,13 @@
 
 .register-section, .flag-section {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 10px;
     margin: 20px 0;
 }
 
 .register {
-    display: flex;
+    /* display: flex; */
     border-radius: 5px;
     overflow: hidden;
 }

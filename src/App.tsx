@@ -91,9 +91,8 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <RegisterView registers={registers} />
       <div className="emulator">
-        <h1 className="emulator-header">6502 Emulator</h1>
+        {/* <h1 className="emulator-header">6502 Emulator</h1> */}
         {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} assemblyState={assemblyState} setAssemblyState={setAssemblyState}/>}
         <div className="emulator-controls">
           <button onClick={runCpu} disabled={!assemblyState.isAssembled}>Run CPU</button>
@@ -101,6 +100,7 @@ const App: React.FC = () => {
           <button onClick={toggleSubmitted}>Assemble</button>
           {renderAssemblyMessage()}
         </div>
+      <RegisterView registers={registers} />
       </div>
       {registers && <Trace  cpu={cpu} bus={bus} PC={registers.PC} traceLog={traceLog} setTraceLog={setTraceLog} />}
       {bus && <StackView bus={bus} SP={registers.SP} />}

@@ -1,20 +1,26 @@
 .App {
   display: grid;
-  gap: 1rem;
   width: 100vw;
   height: 100vh;
   grid-template-areas:
+    "emulator emulator emulator trace"
+    "emulator emulator emulator trace"
+    "emulator emulator emulator stack-view";
+  /* grid-template-areas:
   "registers . . ."
   "registers emulator emulator stack-view"
   "registers emulator emulator stack-view"
-  "registers trace trace .";
-grid-template-columns: 1fr 1fr 1fr 1fr;
-grid-template-rows: 1fr 1fr 1fr 1.2fr;
+  "registers trace trace ."; */
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 30%;
   align-items: center;
 }
 
 .emulator {
   grid-area: emulator;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .emulator-header {

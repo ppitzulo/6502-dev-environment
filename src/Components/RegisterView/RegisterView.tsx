@@ -5,8 +5,8 @@ const RegisterView = ({ registers }: { registers: any }) => {
 
     return (
         <div className="register-display">
-            <h2>CPU Registers</h2>
             <div className="register-section">
+            {/* <h2>CPU Registers</h2> */}
                 <div className="register">
                     <span className="label">A</span>
                     <span className="value">0x{registers.A.toString(16).toUpperCase()}</span>
@@ -29,8 +29,8 @@ const RegisterView = ({ registers }: { registers: any }) => {
                 </div>
             </div>
 
-            <h2>Status Flags</h2>
             <div className="flag-section">
+            {/* <h2>Status Flags</h2> */}
                 <div className="register">
                     <span className="label">C</span>
                     <span className="value">{registers.carryFlag ? 'True' : 'False'}</span>

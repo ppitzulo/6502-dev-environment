@@ -29,7 +29,6 @@ const StackView = ({ bus, SP }: StackProps) => {
 
   return (
     <div className="stack">
-      <h2 className="header">Stack</h2>
       <div className="stack-header">
         <div>Address</div>
         <div>Value</div>

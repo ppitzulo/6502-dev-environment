@@ -34,8 +34,6 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
 
     return (
         <div className="trace">
-            <h2 className='header'>Trace</h2>
-
             <div className="trace-header">
                 <div>PC</div>
                 <div>Instr</div>
