@@ -1,9 +1,10 @@
 .register-display {
-    margin: 20px;
+    margin: 0 20px;
     /* grid-area: registers; */
     justify-self: center;
     display: flex;
-    gap: 4rem;
+    gap: 2rem;
+    /* font-size: .8rem; */
 }
 
 .register-display h2 {

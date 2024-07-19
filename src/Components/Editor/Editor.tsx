@@ -8,7 +8,7 @@ import 'codemirror/theme/dracula.css'
 import 'codemirror/theme/monokai.css'
 import { Editor as CodeMirrorEditor } from 'codemirror';
 
-const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState }: { bus: any, wasmModule: any, assemblyState: AssemblyState, setAssemblyState: React.Dispatch<React.SetStateAction<AssemblyState>> }) => {
+const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }: { bus: any, wasmModule: any, assemblyState: AssemblyState, setAssemblyState: React.Dispatch<React.SetStateAction<AssemblyState>>, setMessage: React.Dispatch<React.SetStateAction<string | null>>}) => {
   const initialAssemblyCode = `    .org $0800
   ldx #0
   start:
@@ -65,9 +65,12 @@ const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState }: { bus: any
             isSubmitted: false,
             isAssembled: true
           }));
+          setMessage("Code assembled successfully");
 
         } catch (err) {
           console.error(err);
+          console.error(err);
+          setMessage("Error assembling code");
           setAssemblyState((prevState: AssemblyState) => ({
             ...prevState,
             isSubmitted: false,

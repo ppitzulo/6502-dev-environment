@@ -3,6 +3,8 @@ import './RegisterView.css';
 const RegisterView = ({ registers }: { registers: any }) => {
     if (!registers) return null;
 
+    const getColor = (flag: boolean) => flag ? '#90ee90' : 'red';
+
     return (
         <div className="register-display">
             <div className="register-section">
@@ -33,31 +35,31 @@ const RegisterView = ({ registers }: { registers: any }) => {
             {/* <h2>Status Flags</h2> */}
                 <div className="register">
                     <span className="label">C</span>
-                    <span className="value">{registers.carryFlag ? 'True' : 'False'}</span>
+                    <span className="value" style={{color: getColor(registers.carryFlag)}}>{registers.carryFlag ? 'True' : 'False'}</span>
                 </div>
                 <div className="register">
                     <span className="label">Z</span>
-                    <span className="value">{registers.zeroFlag ? 'True' : 'False'}</span>
+                    <span className="value" style={{color: getColor(registers.zeroFlag)}}>{registers.zeroFlag ? 'True' : 'False'}</span>
                 </div>
                 <div className="register">
                     <span className="label">I</span>
-                    <span className="value">{registers.interruptDisableFlag ? 'True' : 'False'}</span>
+                    <span className="value" style={{color: getColor(registers.interruptDisableFlag)}}>{registers.interruptDisableFlag ? 'True' : 'False'}</span>
                 </div>
                 <div className="register">
                     <span className="label">D</span>
-                    <span className="value">{registers.decimalModeFlag ? 'True' : 'False'}</span>
+                    <span className="value" style={{color: getColor(registers.decimalModeFlag)}}>{registers.decimalModeFlag ? 'True' : 'False'}</span>
                 </div>
                 <div className="register">
                     <span className="label">B</span>
-                    <span className="value">{registers.breakCommandFlag ? 'True' : 'False'}</span>
+                    <span className="value" style={{color: getColor(registers.breakCommandFlag)}}>{registers.breakCommandFlag ? 'True' : 'False'}</span>
                 </div>
                 <div className="register">
                     <span className="label">O</span>
-                    <span className="value">{registers.overflowFlag ? 'True' : 'False'}</span>
+                    <span className="value" style={{color: getColor(registers.overflowFlag)}}>{registers.overflowFlag ? 'True' : 'False'}</span>
                 </div>
                 <div className="register">
                     <span className="label">N</span>
-                    <span className="value">{registers.negativeFlag ? 'True' : 'False'}</span>
+                    <span className="value" style={{color: getColor(registers.negativeFlag)}}>{registers.negativeFlag ? 'True' : 'False'}</span>
                 </div>
             </div>
         </div>
