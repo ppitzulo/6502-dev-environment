@@ -20,7 +20,7 @@ const App: React.FC = () => {
     isAssembled: false,
     isError: false,
   });
-  const [message, setMessage] = useState<string | null>(null); // State for the message
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (wasmResults.isReady && !cpu) {
@@ -39,22 +39,6 @@ const App: React.FC = () => {
     }
   }, [wasmResults, cpu]);
 
-  // useEffect(() => {
-  //   if (assemblyState.isAssembled) {
-  //     setMessage("Code assembled successfully");
-  //     return;
-  //   }
-
-  //   if (assemblyState.isError) {
-  //     setMessage("Error assembling code");
-  //     return;
-  //   }
-
-  //   if (assemblyState.isSubmitted) {
-  //     resetCpu();
-  //   }
-  // }, [assemblyState]);
-
   const runCpu = () => {
     if (cpu) {
       cpu.run();
@@ -69,34 +53,12 @@ const App: React.FC = () => {
       setTraceLog([]);
     }
   };
-
+  
   const toggleSubmitted = () => {
     setAssemblyState(prevState => ({
       ...prevState,
       isSubmitted: !prevState.isSubmitted
     }));
-  };
-
-  const renderAssemblyMessage = () => {
-    if (assemblyState.isAssembled) {
-      setMessage("Code assembled successfully");
-      return;
-    }
-
-    if (!assemblyState.isError) {
-      // setMessage("Assembling code...");
-      return;
-    }
-
-    if (assemblyState.isError) {
-      setMessage("Error assembling code");
-      return;
-    }
-
-    // if (!assemblyState.isSubmitted) {
-    //   setMessage("Submit code to assemble");
-    //   return;
-    // }
   };
 
   useEffect(() => {
@@ -114,14 +76,14 @@ const App: React.FC = () => {
           <div className="emulator-controls">
             <button onClick={runCpu} disabled={!assemblyState.isAssembled}>Run CPU</button>
             <button onClick={resetCpu}>Reset CPU</button>
-            <button onClick={() => { toggleSubmitted();}}>Assemble</button> {/* Update button to call renderAssemblyMessage */}
-            {message && <div className="assembly-message">{message}</div>} {/* Display message above the buttons */}
+            <button onClick={() => { toggleSubmitted();}}>Assemble</button>
+            {message && <div className="assembly-message">{message}</div>}
             {assemblyState.isSubmitted && !assemblyState.isError && <Spinner />}
           </div>
           <RegisterView registers={registers} />
         </div>
       </div>
-      {registers && <Trace cpu={cpu} bus={bus} PC={registers.PC} traceLog={traceLog} setTraceLog={setTraceLog} />}
+      {registers && <Trace cpu={cpu} bus={bus} PC={registers.PC} traceLog={traceLog} setTraceLog={setTraceLog}/>}
       {bus && <StackView bus={bus} SP={registers.SP} />}
     </div>
   );

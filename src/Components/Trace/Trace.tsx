@@ -12,11 +12,13 @@ interface TraceProps {
 }
 
 
-const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
-    const [prevPC, setPrevPC] = useState<number>(PC); // Track previous PC to detect changes
+const Trace = ({ cpu, bus, PC, traceLog, setTraceLog}: TraceProps) => {
+    const [prevPC, setPrevPC] = useState<number>(PC); // Track previous PC to make sure we don't add the value at the inital address to the trace log
 
-    useEffect(() => {
-        if (PC !== prevPC) {
+    useEffect(() => { 
+        // If the PC is not the initial address and the PC has changed
+        if (PC !== 0x8000 && PC !== prevPC) {
+
             // Get the current opcode from the bus
             const opcode = bus.readMemory(prevPC);
 
