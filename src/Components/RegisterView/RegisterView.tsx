@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, KeyboardEvent, ChangeEvent } from 'react';
 import './RegisterView.css';
 import { RegisterState } from '../../Interfaces/AssemblyStateInterfaces';
 import { Tooltip } from 'react-tooltip';
 
 const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterState, setRegisters: React.Dispatch<React.SetStateAction<RegisterState>>, cpu: any }) => {
     if (!registers) return null;
+
+    const [tempRegisters, setTempRegisters] = useState<Partial<RegisterState>>({});
 
     const getColor = (flag: boolean) => flag ? '#90ee90' : 'red';
 
@@ -13,6 +15,56 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
             ...prevRegisters,
             [flagName]: !prevRegisters[flagName],
         }));
+    };
+
+    const handleEdit = (event: ChangeEvent<HTMLInputElement>, registerName: keyof RegisterState) => {
+        const newValue = event.target.value.replace("0x", ""); // Remove "0x" prefix if present
+
+        if (newValue === "") {
+            setTempRegisters(prevRegisters => ({
+                ...prevRegisters,
+                [registerName]: 0,
+            }));
+        }
+        else {
+            const parsedValue = parseInt(newValue, 16);
+
+            setTempRegisters(prevRegisters => ({
+                ...prevRegisters,
+                [registerName]: isNaN(parsedValue) ? prevRegisters[registerName] : parsedValue,
+            }));
+        }
+    };
+
+
+    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, registerName: keyof RegisterState) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const newValue = tempRegisters[registerName] || '';
+            
+            if (newValue === "") {
+                setRegisters(prevRegisters => ({
+                    ...prevRegisters,
+                    [registerName]: 0,
+                }));
+            } else {
+                const parsedValue = parseInt(newValue.toString());
+                if (!isNaN(parsedValue)) {
+                    setRegisters(prevRegisters => ({
+                        ...prevRegisters,
+                        [registerName]: parsedValue,
+                    }));
+                }
+            }
+            
+            // Clear the temporary input
+            setTempRegisters(prev => ({
+                ...prev,
+                [registerName]: undefined
+            }));
+            
+            (event.target as HTMLInputElement).blur();
+        }
     };
 
     return (
@@ -28,8 +80,15 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     >
                         A
                     </span>
-                    <span className="value">0x{registers.A.toString(16).toUpperCase()}</span>
+                    <input
+                        className="value"
+                        maxLength={4}
+                        value={`0x${registers.A.toString(16).toUpperCase()}`}
+                        onChange={(event) => handleEdit(event, "A")}
+                        onKeyDown={(event) => handleKeyDown(event, "A")}
+                    />
                 </div>
+
                 <div className="register">
                     <span
                         data-tooltip-id='register-tooltip'
@@ -38,7 +97,13 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     >
                         X
                     </span>
-                    <span className="value">0x{registers.X.toString(16).toUpperCase()}</span>
+                    <input
+                        className="value"
+                        maxLength={4}
+                        value={`0x${registers.X.toString(16).toUpperCase()}`}
+                        onChange={(event) => handleEdit(event, "X")}
+                        onKeyDown={(event) => handleKeyDown(event, "X")}
+                    />
                 </div>
 
                 <div className="register">
@@ -49,7 +114,13 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     >
                         Y
                     </span>
-                    <span className="value">0x{registers.Y.toString(16).toUpperCase()}</span>
+                    <input
+                        className="value"
+                        maxLength={4}
+                        value={`0x${registers.Y.toString(16).toUpperCase()}`}
+                        onChange={(event) => handleEdit(event, "Y")}
+                        onKeyDown={(event) => handleKeyDown(event, "Y")}
+                    />
                 </div>
 
                 <div className="register">
@@ -60,7 +131,15 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     >
                         PC
                     </span>
-                    <span className="value">0x{registers.PC.toString(16).toUpperCase()}</span>
+                    <input
+                        className="value program-counter"
+                        maxLength={6}
+                        value={tempRegisters["PC"] !== undefined 
+                            ? `0x${tempRegisters["PC"].toString(16).toUpperCase()}`
+                            : `0x${registers["PC"].toString(16).toUpperCase()}`}
+                        onChange={(event) => handleEdit(event, "PC")}
+                        onKeyDown={(event) => handleKeyDown(event, "PC")}
+                    />
                 </div>
 
                 <div className="register">
@@ -71,7 +150,13 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     >
                         SP
                     </span>
-                    <span className="value">0x{registers.SP.toString(16).toUpperCase()}</span>
+                    <input
+                        className="value"
+                        maxLength={4}
+                        value={`0x${registers.SP.toString(16).toUpperCase()}`}
+                        onChange={(event) => handleEdit(event, "SP")}
+                        onKeyDown={(event) => handleKeyDown(event, "SP")}
+                    />
                 </div>
             </div>
 

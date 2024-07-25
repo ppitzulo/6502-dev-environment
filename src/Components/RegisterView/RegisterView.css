@@ -67,3 +67,15 @@
 .button:hover {
     background-color: #505050;
 }
+
+/* Style input field for registers */
+
+.register-section input {
+    border: none;
+    width: 3.5rem;
+    text-align: center;
+}
+
+input.program-counter {
+    width: 5rem;
+}
