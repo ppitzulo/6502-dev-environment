@@ -1,16 +1,23 @@
 import React from 'react';
 import './RegisterView.css';
+import { RegisterState } from '../../Interfaces/AssemblyStateInterfaces';
 import { Tooltip } from 'react-tooltip';
 
-const RegisterView = ({ registers }: { registers: any }) => {
+const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterState, setRegisters: React.Dispatch<React.SetStateAction<RegisterState>>, cpu: any }) => {
     if (!registers) return null;
 
     const getColor = (flag: boolean) => flag ? '#90ee90' : 'red';
 
+    const toggleFlag = (flagName: keyof RegisterState) => () => {
+        setRegisters(prevRegisters => ({
+            ...prevRegisters,
+            [flagName]: !prevRegisters[flagName],
+        }));
+    };
+
     return (
         <div className="register-display">
             <div className="register-section">
-                {/* <h2>CPU Registers</h2> */}
                 <Tooltip id='register-tooltip' place='top' />
 
                 <div className="register">
@@ -69,10 +76,9 @@ const RegisterView = ({ registers }: { registers: any }) => {
             </div>
 
             <div className="flag-section">
-                {/* <h2>Status Flags</h2> */}
-                <div className="register">
+                <div className="register" onClick={toggleFlag('carryFlag')}>
                     <span
-                        data-tooltip-id='register-tooltip'
+                        data-tooltip-id="register-tooltip"
                         data-tooltip-content="Carry Flag"
                         className="label"
                     >
@@ -81,9 +87,9 @@ const RegisterView = ({ registers }: { registers: any }) => {
                     <span className="value" style={{ color: getColor(registers.carryFlag) }}>{registers.carryFlag ? 'True' : 'False'}</span>
                 </div>
 
-                <div className="register">
+                <div className="register" onClick={toggleFlag('zeroFlag')}>
                     <span
-                        data-tooltip-id='register-tooltip'
+                        data-tooltip-id="register-tooltip"
                         data-tooltip-content="Zero Flag"
                         className="label"
                     >
@@ -92,9 +98,9 @@ const RegisterView = ({ registers }: { registers: any }) => {
                     <span className="value" style={{ color: getColor(registers.zeroFlag) }}>{registers.zeroFlag ? 'True' : 'False'}</span>
                 </div>
 
-                <div className="register">
+                <div className="register" onClick={toggleFlag('interruptDisableFlag')}>
                     <span
-                        data-tooltip-id='register-tooltip'
+                        data-tooltip-id="register-tooltip"
                         data-tooltip-content="Interrupt Disable Flag"
                         className="label"
                     >
@@ -103,9 +109,9 @@ const RegisterView = ({ registers }: { registers: any }) => {
                     <span className="value" style={{ color: getColor(registers.interruptDisableFlag) }}>{registers.interruptDisableFlag ? 'True' : 'False'}</span>
                 </div>
 
-                <div className="register">
+                <div className="register" onClick={toggleFlag('decimalModeFlag')}>
                     <span
-                        data-tooltip-id='register-tooltip'
+                        data-tooltip-id="register-tooltip"
                         data-tooltip-content="Decimal Mode Flag"
                         className="label"
                     >
@@ -114,9 +120,9 @@ const RegisterView = ({ registers }: { registers: any }) => {
                     <span className="value" style={{ color: getColor(registers.decimalModeFlag) }}>{registers.decimalModeFlag ? 'True' : 'False'}</span>
                 </div>
 
-                <div className="register">
+                <div className="register" onClick={toggleFlag('breakCommandFlag')}>
                     <span
-                        data-tooltip-id='register-tooltip'
+                        data-tooltip-id="register-tooltip"
                         data-tooltip-content="Break Command Flag"
                         className="label"
                     >
@@ -125,9 +131,9 @@ const RegisterView = ({ registers }: { registers: any }) => {
                     <span className="value" style={{ color: getColor(registers.breakCommandFlag) }}>{registers.breakCommandFlag ? 'True' : 'False'}</span>
                 </div>
 
-                <div className="register">
+                <div className="register" onClick={toggleFlag('overflowFlag')}>
                     <span
-                        data-tooltip-id='register-tooltip'
+                        data-tooltip-id="register-tooltip"
                         data-tooltip-content="Overflow Flag"
                         className="label"
                     >
@@ -136,9 +142,9 @@ const RegisterView = ({ registers }: { registers: any }) => {
                     <span className="value" style={{ color: getColor(registers.overflowFlag) }}>{registers.overflowFlag ? 'True' : 'False'}</span>
                 </div>
 
-                <div className="register">
+                <div className="register" onClick={toggleFlag('negativeFlag')}>
                     <span
-                        data-tooltip-id='register-tooltip'
+                        data-tooltip-id="register-tooltip"
                         data-tooltip-content="Negative Flag"
                         className="label"
                     >

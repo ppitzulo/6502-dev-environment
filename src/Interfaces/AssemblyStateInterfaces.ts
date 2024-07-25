@@ -4,6 +4,21 @@ interface AssemblyState {
     isError: boolean;
 }
 
+type RegisterState = {
+  A: number;
+  X: number;
+  Y: number;
+  PC: number;
+  SP: number;
+  carryFlag: boolean;
+  zeroFlag: boolean;
+  interruptDisableFlag: boolean;
+  decimalModeFlag: boolean;
+  breakCommandFlag: boolean;
+  overflowFlag: boolean;
+  negativeFlag: boolean;
+};
+
 interface Operation {
     opcode: number;
     name: string;
@@ -19,4 +34,4 @@ interface Operation {
   }
 
   
-export type { AssemblyState, Operation };
+export type { AssemblyState, Operation, RegisterState };

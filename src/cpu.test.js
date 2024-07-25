@@ -94,7 +94,8 @@ describe('CPU Tests', () => {
                     
                     
                     cpu.setRegisters(registers);
-                    cpu.run(test.cycles.length);
+                    cpu.run();
+                    // cpu.run(test.cycles.length);
                     
                     
                     registers = cpu.getRegisters();

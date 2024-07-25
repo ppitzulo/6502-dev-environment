@@ -39,10 +39,24 @@ const App: React.FC = () => {
     }
   }, [wasmResults, cpu]);
 
+  useEffect(() => {
+    if (cpu) {
+      cpu.setRegisters(registers);
+    }
+  }, [registers, cpu]);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(null), 5000); // Hide message after 5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   const runCpu = () => {
     if (cpu) {
       cpu.run();
       setRegisters(cpu.getRegisters());
+
     }
   };
 
@@ -53,20 +67,13 @@ const App: React.FC = () => {
       setTraceLog([]);
     }
   };
-  
+
   const toggleSubmitted = () => {
     setAssemblyState(prevState => ({
       ...prevState,
       isSubmitted: !prevState.isSubmitted
     }));
   };
-
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(null), 5000); // Hide message after 5 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
 
   return (
     <div className="App">
@@ -76,14 +83,14 @@ const App: React.FC = () => {
           <div className="emulator-controls">
             <button onClick={runCpu} disabled={!assemblyState.isAssembled}>Run CPU</button>
             <button onClick={resetCpu}>Reset CPU</button>
-            <button onClick={() => { toggleSubmitted();}}>Assemble</button>
+            <button onClick={() => { toggleSubmitted(); }}>Assemble</button>
             {message && <div className="assembly-message">{message}</div>}
             {assemblyState.isSubmitted && !assemblyState.isError && <Spinner />}
           </div>
-          <RegisterView registers={registers} />
+          <RegisterView registers={registers} setRegisters={setRegisters} cpu={cpu} />
         </div>
       </div>
-      {registers && <Trace cpu={cpu} bus={bus} PC={registers.PC} traceLog={traceLog} setTraceLog={setTraceLog}/>}
+      {registers && <Trace cpu={cpu} bus={bus} PC={registers.PC} traceLog={traceLog} setTraceLog={setTraceLog} />}
       {bus && <StackView bus={bus} SP={registers.SP} />}
     </div>
   );
