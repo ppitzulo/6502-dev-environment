@@ -83,7 +83,9 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     <input
                         className="value"
                         maxLength={4}
-                        value={`0x${registers.A.toString(16).toUpperCase()}`}
+                        value={tempRegisters["A"] !== undefined 
+                            ? `0x${tempRegisters["A"].toString(16).toUpperCase()}`
+                            : `0x${registers["A"].toString(16).toUpperCase()}`}
                         onChange={(event) => handleEdit(event, "A")}
                         onKeyDown={(event) => handleKeyDown(event, "A")}
                     />
@@ -100,7 +102,9 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     <input
                         className="value"
                         maxLength={4}
-                        value={`0x${registers.X.toString(16).toUpperCase()}`}
+                        value={tempRegisters["X"] !== undefined 
+                            ? `0x${tempRegisters["X"].toString(16).toUpperCase()}`
+                            : `0x${registers["X"].toString(16).toUpperCase()}`}
                         onChange={(event) => handleEdit(event, "X")}
                         onKeyDown={(event) => handleKeyDown(event, "X")}
                     />
@@ -117,7 +121,9 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     <input
                         className="value"
                         maxLength={4}
-                        value={`0x${registers.Y.toString(16).toUpperCase()}`}
+                        value={tempRegisters["Y"] !== undefined 
+                            ? `0x${tempRegisters["Y"].toString(16).toUpperCase()}`
+                            : `0x${registers["Y"].toString(16).toUpperCase()}`}
                         onChange={(event) => handleEdit(event, "Y")}
                         onKeyDown={(event) => handleKeyDown(event, "Y")}
                     />
@@ -153,7 +159,9 @@ const RegisterView = ({ registers, setRegisters, cpu }: { registers: RegisterSta
                     <input
                         className="value"
                         maxLength={4}
-                        value={`0x${registers.SP.toString(16).toUpperCase()}`}
+                        value={tempRegisters["SP"] !== undefined 
+                            ? `0x${tempRegisters["SP"].toString(16).toUpperCase()}`
+                            : `0x${registers["SP"].toString(16).toUpperCase()}`}
                         onChange={(event) => handleEdit(event, "SP")}
                         onKeyDown={(event) => handleKeyDown(event, "SP")}
                     />
