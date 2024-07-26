@@ -1,6 +1,5 @@
 import React from 'react';
 import Spinner from '../Spinner/Spinner';
-import './EmulatorControls.css'
 
 interface EmulatorControlsProps {
   runCpu: () => void;
@@ -22,15 +21,13 @@ const EmulatorControls: React.FC<EmulatorControlsProps> = ({
   message
 }) => {
   return (
-    // <div className="controls-container">
-      <div className="emulator-controls">
-        <button onClick={runCpu} disabled={!assemblyState.isAssembled}>Run CPU</button>
-        <button onClick={resetCpu}>Reset CPU</button>
-        <button onClick={toggleSubmitted}>Assemble</button>
-        {message && <div className="assembly-message">{message}</div>}
-        {assemblyState.isSubmitted && !assemblyState.isError && <Spinner />}
-      </div>
-    // </div>
+    <div className="emulator-controls">
+      <button onClick={runCpu} disabled={!assemblyState.isAssembled}>Run CPU</button>
+      <button onClick={resetCpu}>Reset CPU</button>
+      <button onClick={toggleSubmitted}>Assemble</button>
+      {message && <div className="assembly-message">{message}</div>}
+      {assemblyState.isSubmitted && !assemblyState.isError && <Spinner />}
+    </div>
   );
 };
 

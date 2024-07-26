@@ -1,0 +1,38 @@
+
+.register {
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.register .label {
+    background-color: #3b3b3b; 
+    font-weight: bold;
+    color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px; 
+}
+
+.register .value {
+    background-color: #2b2b2b; 
+    color: #90ee90; 
+    padding: 10px;
+    flex-grow: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+/* Style input field for registers */
+
+.register-section input {
+    border: none;
+    width: 3.5rem;
+    text-align: center;
+}
+
+input.program-counter {
+    width: 5rem;
+}
