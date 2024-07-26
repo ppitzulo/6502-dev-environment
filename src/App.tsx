@@ -6,7 +6,7 @@ import Trace from './Components/Trace/Trace';
 import './App.css';
 import { AssemblyState, Operation } from './Interfaces/AssemblyStateInterfaces';
 import StackView from './Components/StackView/StackView';
-import Spinner from './Components/Spinner/Spinner';
+import EmulatorControls from './Components/EmulatorControls/EmulatorControls';
 
 const App: React.FC = () => {
   const wasmResults = useWasm();
@@ -79,17 +79,17 @@ const App: React.FC = () => {
     <div className="App">
       <div className="emulator">
         {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} assemblyState={assemblyState} setAssemblyState={setAssemblyState} setMessage={setMessage} />}
+      </div>
         <div className="controls-container">
-          <div className="emulator-controls">
-            <button onClick={runCpu} disabled={!assemblyState.isAssembled}>Run CPU</button>
-            <button onClick={resetCpu}>Reset CPU</button>
-            <button onClick={() => { toggleSubmitted(); }}>Assemble</button>
-            {message && <div className="assembly-message">{message}</div>}
-            {assemblyState.isSubmitted && !assemblyState.isError && <Spinner />}
-          </div>
+          <EmulatorControls
+            runCpu={runCpu}
+            resetCpu={resetCpu}
+            toggleSubmitted={toggleSubmitted}
+            assemblyState={assemblyState}
+            message={message}
+          />
           <RegisterView registers={registers} setRegisters={setRegisters} cpu={cpu} />
         </div>
-      </div>
       {registers && <Trace cpu={cpu} bus={bus} PC={registers.PC} traceLog={traceLog} setTraceLog={setTraceLog} />}
       {bus && <StackView bus={bus} SP={registers.SP} />}
     </div>
