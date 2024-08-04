@@ -10,7 +10,7 @@
     "emulator emulator emulator stack-view"
     "emulator-controls emulator-controls emulator-controls stack-view";
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 15%;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 7rem;
   align-items: center;
 }
 
@@ -21,20 +21,9 @@
   height: 100%;
 }
 
-.emulator-header {
-  /* Set background text of emulator header to gradient */
-  text-align: center;
-  font-size: 3rem;
-  font-weight: bold;
-  background: linear-gradient(to right, #43cea2, #185a9d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 .assembly-message {
   position: absolute;
   bottom: 85%;
-  /* right: 50%; */
   left: 16%;
   padding: 0.5rem;
   background-color: #3b3b3b;

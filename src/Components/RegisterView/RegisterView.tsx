@@ -85,10 +85,10 @@ const RegisterView = ({ registers, setRegisters }: { registers: RegisterState, s
             </div>
 
             <div className="flag-section">
-                {(['carryFlag', 'zeroFlag', 'interruptDisableFlag', 'decimalModeFlag', 'breakCommandFlag', 'overflowFlag', 'negativeFlag'] as const).map((flag) => (
+                {(['negativeFlag', 'overflowFlag', 'breakCommandFlag', 'decimalModeFlag', 'interruptDisableFlag', 'zeroFlag', 'carryFlag'] as const).map((flag) => (
                     <Flag
                         key={flag}
-                        label={flag.charAt(0).toUpperCase()}
+                        label={flag}
                         value={registers[flag]}
                         onToggle={toggleFlag(flag)}
                     />

@@ -29,7 +29,7 @@ interface Operation {
     SP: number;
     PC: number;
     status: number;
-    CYC: number;
+    cycles: number;
     operand: string;
   }
 

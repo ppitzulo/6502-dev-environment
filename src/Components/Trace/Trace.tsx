@@ -12,10 +12,10 @@ interface TraceProps {
 }
 
 
-const Trace = ({ cpu, bus, PC, traceLog, setTraceLog}: TraceProps) => {
+const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
     const [prevPC, setPrevPC] = useState<number>(PC); // Track previous PC to make sure we don't add the value at the inital address to the trace log
 
-    useEffect(() => { 
+    useEffect(() => {
         // If the PC is not the initial address and the PC has changed
         if (PC !== 0x8000 && PC !== prevPC) {
 
@@ -37,29 +37,29 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog}: TraceProps) => {
     return (
         <div className="trace">
             <div className="trace-header">
-                <div>PC</div>
-                <div>Instr</div>
-                <div>Operand</div>
-                <div>Disass</div>
-                <div>A</div>
-                <div>X</div>
-                <div>Y</div>
-                <div>SP</div>
-                <div>NV-BDIZC</div>
-                <div>Cycles</div>
+                <div title="Program Counter">PC</div>
+                {/* <div title="Instruction">Instr</div> */}
+                <div title="Operand">Opnd</div>
+                <div title="Disassembly">Diss</div>
+                <div title="Accumulator">A</div>
+                <div title="Index Register X">X</div>
+                <div title="Index Register Y">Y</div>
+                <div title="Stack Pointer">SP</div>
+                <div title="Flags (N, O, -, B, D, I, Z, C)">Flags</div>
+                <div title="Cycles">Cyc</div>
             </div>
             <div className="trace-body">
                 {traceLog.map((operation, index) => (
                     <div className="trace-row" key={index}>
-                        <div>{`0x${operation.PC.toString(16).padStart(4, '0')}`}</div>
-                        <div>{`0x${operation.opcode.toString(16)}`}</div>
+                        <div>{`0x${operation.PC.toString(16).toUpperCase().padStart(4, '0')}`}</div>
+                        {/* <div>{`0x${operation.opcode.toString(16).toUpperCase()}`}</div> */}
+                        <div title={`0x${operation.opcode.toString(16).toUpperCase()}`}>{operation.name}</div>
                         <div>{operation.operand}</div>
-                        <div>{operation.name}</div>
-                        <div>{`0x${operation.A.toString(16)}`}</div>
-                        <div>{`0x${operation.X.toString(16)}`}</div>
-                        <div>{`0x${operation.Y.toString(16)}`}</div>
-                        <div>{`0x${operation.SP.toString(16)}`}</div>
-                        <div>{`${operation.P.toString(2)}`}</div>
+                        <div>{`0x${operation.A.toString(16).toUpperCase()}`}</div>
+                        <div>{`0x${operation.X.toString(16).toUpperCase()}`}</div>
+                        <div>{`0x${operation.Y.toString(16).toUpperCase()}`}</div>
+                        <div>{`0x${operation.SP.toString(16).toUpperCase()}`}</div>
+                        <div>{`${operation.P.toString(2).padStart(8, '0')}`}</div>
                         <div>{`${operation.cycles}`}</div>
                     </div>
                 ))}

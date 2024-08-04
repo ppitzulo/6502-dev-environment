@@ -52,13 +52,40 @@ const App: React.FC = () => {
     }
   }, [message]);
 
-  const runCpu = () => {
+  const stepCpu = () => {
     if (cpu) {
-      cpu.run();
+      cpu.step();
       setRegisters(cpu.getRegisters());
 
     }
   };
+
+  // Run the CPU continuously
+  const runCpu = () => {
+    if (cpu) {
+
+      const executeSteps = async () => {
+        while (true) {
+
+          // Fetch latest registers and opcode
+          const currentRegisters = cpu.getRegisters();
+          const opcode = bus.readMemory(currentRegisters['PC']);
+          
+          stepCpu(); // Execute a single step
+          
+          await new Promise((resolve) => setTimeout(resolve, 20)); // Delay for visualization
+
+          if (opcode === 0x0) {
+            console.debug("Opcode is 0x00, stopping execution");
+            return;
+          }
+        }
+      };
+
+      executeSteps();
+    }
+  };
+
 
   const resetCpu = () => {
     if (cpu) {
@@ -83,6 +110,7 @@ const App: React.FC = () => {
         <div className="controls-container">
           <EmulatorControls
             runCpu={runCpu}
+            stepCpu={stepCpu}
             resetCpu={resetCpu}
             toggleSubmitted={toggleSubmitted}
             assemblyState={assemblyState}
