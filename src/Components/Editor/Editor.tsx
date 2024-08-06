@@ -1,37 +1,41 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Controlled as CodeMirror } from 'react-codemirror2';
+import React, { useState, useEffect } from 'react';
+import CodeMirror from '@uiw/react-codemirror';
 import { AssemblyState } from '../../Interfaces/AssemblyStateInterfaces';
 import './Editor.css';
-import '../../mos6502-mode';
-import 'codemirror/lib/codemirror.css';
-import { Editor as CodeMirrorEditor } from 'codemirror';
+import { mos6502 } from '../../mos6502-mode';
 
 // Themes
-import 'codemirror/theme/dracula.css'
-import 'codemirror/theme/monokai.css'
-import 'codemirror/theme/icecoder.css'
-import 'codemirror/theme/ambiance.css'
-import 'codemirror/theme/solarized.css'
-import 'codemirror/theme/material-darker.css'
-import 'codemirror/theme/tomorrow-night-bright.css'
-import 'codemirror/theme/twilight.css'
-import 'codemirror/theme/night.css'
-import 'codemirror/theme/ayu-dark.css'
-import 'codemirror/theme/darcula.css'
+import { dracula } from '@uiw/codemirror-theme-dracula';
+import { monokai } from '@uiw/codemirror-theme-monokai';
+import { solarizedDark } from '@uiw/codemirror-theme-solarized';
+import { tokyoNight } from '@uiw/codemirror-theme-tokyo-night';
+import { tokyoNightStorm } from '@uiw/codemirror-theme-tokyo-night-storm';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { darcula } from '@uiw/codemirror-theme-darcula';
 
-
-
-
-
+// Vim mode
+import { vim } from "@replit/codemirror-vim"
 
 // Font Awesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
+type ThemeKey = keyof typeof themes;
+
+const themes = {
+  'dracula': dracula,
+  'monokai': monokai,
+  'solarized-dark': solarizedDark,
+  'tokyo-night': tokyoNight,
+  'tokyo-night-storm': tokyoNightStorm,
+  'vscode-dark': vscodeDark,
+  'darcula': darcula,
+};
+
 const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }: { bus: any, wasmModule: any, assemblyState: AssemblyState, setAssemblyState: React.Dispatch<React.SetStateAction<AssemblyState>>, setMessage: React.Dispatch<React.SetStateAction<string | null>> }) => {
-  const initialAssemblyCode = `    .org $0800
-  ldx #0
-  start:
+  const initialAssemblyCode = `.org $0800
+ldx #0
+start:
   stx $0200
   inx
   stx $0201
@@ -39,12 +43,12 @@ const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }
 
   const [assemblyCode, setAssemblyCode] = useState<string>(initialAssemblyCode);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [theme, setTheme] = useState<string>('icecoder');
+  const [theme, setTheme] = useState<ThemeKey>(() => {
+    const savedTheme = localStorage.getItem('theme') as ThemeKey;
+    return savedTheme || 'vscode-dark';
+  });
 
-  const editorRef = useRef<CodeMirrorEditor | null>(null);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
-
-  const handleChange = (editor: any, data: any, value: string) => {
+  const handleChange = (value: string) => {
     setAssemblyCode(value);
     setAssemblyState((prevState: AssemblyState) => ({
       ...prevState,
@@ -120,8 +124,7 @@ const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }
               <label>Theme: </label>
               <select
                 onChange={(e) => {
-                  const theme = e.target.value;
-                  editorRef.current.setOption('theme', theme);
+                  const theme:ThemeKey = e.target.value as ThemeKey;
 
                   // Save theme to local storage
                   localStorage.setItem('theme', theme);
@@ -129,47 +132,19 @@ const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }
                   // Update the state
                   setTheme(theme);
                 }}
-                defaultValue={localStorage.getItem('theme') || 'Ayu Dark'}
+                defaultValue={localStorage.getItem('theme') || 'vscode-dark'}
               >
-                <option value="icecoder">Icecoder</option>
-                <option value="monokai">Monokai</option>
-                <option value="dracula">Dracula</option>
-                <option value="ambiance">Ambiance</option>
-                <option value="solarized">Solarized</option>
-                <option value="material-darker">Material Darker</option>
-                <option value="tomorrow-night-bright">Tomorrow Night Bright</option>
-                <option value="twilight">Twilight</option>
-                <option value="night">Night</option>
-                <option value="ayu-dark">Ayu Dark</option>
-                <option value="darcula">Darcula</option>
+                {Object.keys(themes).map((themeKey) => (
+                  <option key={themeKey} value={themeKey}>
+                    {themeKey.charAt(0).toUpperCase() + themeKey.slice(1)}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
         )}
       </div>
-      <CodeMirror
-        value={assemblyCode}
-        options={{
-          mode: 'mos6502',
-          theme: theme,
-          lineNumbers: true,
-        }}
-        onBeforeChange={handleChange}
-        editorDidMount={editorElement => {
-          (editorRef as React.MutableRefObject<CodeMirrorEditor>).current = editorElement;
-
-          // Load theme from local storage
-          const theme = localStorage.getItem('theme') || 'icecoder';
-          setTheme(theme);
-        }}
-        editorWillUnmount={() => {
-          const editorWrapper = (editorRef as React.MutableRefObject<CodeMirrorEditor>).current.getWrapperElement();
-          if (editorWrapper) editorWrapper.remove();
-          if (wrapperRef.current) {
-            (wrapperRef.current as { hydrated: boolean }).hydrated = false;
-          }
-        }}
-      />
+      <CodeMirror value={assemblyCode} theme={themes[theme]} extensions={ [vim(), mos6502()]}  onChange={handleChange} height="100%"/>
     </div>
   );
 };
