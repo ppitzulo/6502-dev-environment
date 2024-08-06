@@ -1,7 +1,34 @@
-.CodeMirror.cm-s-dracula {
+.react-codemirror2 .CodeMirror {
     height: 100%;
 }
 
 .react-codemirror2 {
     height: 100%;
+}
+
+.editor-container {
+    height: 100%;
+    position: relative;
+}
+
+.settings {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+    z-index: 1;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    color: white;
+}
+
+.settings-open {
+    background-color: #3b3b3b;
+}
+
+.settings-icon {
+    align-self: flex-end;
 }
