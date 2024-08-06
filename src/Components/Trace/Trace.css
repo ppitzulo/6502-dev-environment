@@ -1,5 +1,4 @@
 .trace {
-    font-size: 0.8rem;
     grid-area: trace;
     align-self: start;
     margin-bottom: 1rem;
@@ -19,7 +18,8 @@
 
 .trace-header, .trace-row {
     display: grid;
-    grid-template-columns: repeat(9, 1fr); /* 10 columns of equal width */
+    /* PC Instr Opnd A X Y SP Flags CYC  */
+    grid-template-columns: 1.75fr 1fr 1.5fr repeat(3, 1fr) 1fr 2fr 1fr; /* 10 columns of equal width */
     column-gap: .1rem;
     gap: .1rem;
     text-align: center;
@@ -29,19 +29,16 @@
     background-color: #3b3b3b;
     padding: 0.5rem 0;
     color: white;
-    font-size: .8rem;
 }
 
 .trace-body {
     background-color: #1c1c1c;
     color: white;
-    font-size: .8rem;
     overflow-y: auto;
     height: 100%;
 }
 
 .trace-row {
-    color: lightgreen;
     padding: 0.2rem 0; /* Reduce padding for more compactness */
 }
 
@@ -51,4 +48,16 @@
 
 .trace-row:nth-child(even) {
     background-color: #3b3b3b;
+}
+
+.set {
+    color: green;
+}
+
+.instruction {
+    color: cornflowerblue;
+}
+
+.operand {
+    color: tomato;
 }

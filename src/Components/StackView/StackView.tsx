@@ -41,7 +41,7 @@ const StackView = ({ bus, SP }: StackProps) => {
               <div className="address">
                 {`0x${address.toString(16).toUpperCase()}`}
               </div>
-              <div>{`0x${value.toString(16).toUpperCase()}`}</div>
+              <div className="value">{`0x${value.toString(16).toUpperCase()}`}</div>
             </div>
           );
         })}

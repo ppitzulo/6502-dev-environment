@@ -10,11 +10,22 @@ interface RegisterProps {
 }
 
 const Register: React.FC<RegisterProps> = ({ label, value, tempValue, onChange, onKeyDown }) => {
+
+    const registerDescriptions: { [key: string]: string } = {
+        PC: 'Program Counter - Points to the next instruction to execute.',
+        SP: 'Stack Pointer - Points to the top of the stack.',
+        A: 'Accumulator - Used for arithmetic and logic operations.',
+        X: 'Index Register X - Used for indexing memory locations.',
+        Y: 'Index Register Y - Used for indexing memory locations.',
+    };
+
+    const unabbreviatedLabel = registerDescriptions[label] || label;
+
     return (
         <div className="register">
             <span
                 data-tooltip-id='register-tooltip'
-                data-tooltip-content={`${label} Register`}
+                data-tooltip-content={unabbreviatedLabel}
                 className="label"
             >
                 {label}

@@ -56,3 +56,11 @@
   transform: translateY(-30%);
   font-size: 2rem;
 }
+
+.address {
+  color: cornflowerblue;
+}
+
+.value {
+  color: tomato;
+}

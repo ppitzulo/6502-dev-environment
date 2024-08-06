@@ -15,6 +15,24 @@ interface TraceProps {
 const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
     const [prevPC, setPrevPC] = useState<number>(PC); // Track previous PC to make sure we don't add the value at the inital address to the trace log
 
+    const formatFlags = (flags: number) => {
+        // Flags are typically represented in the order: N, V, -, B, D, I, Z, C
+        const flagNames = ['N', 'O', '-', 'B', 'D', 'I', 'Z', 'C'];
+
+        // Convert flags to a binary string, pad with leading zeros
+        const flagBits = flags.toString(2).padStart(8, '0').split('');
+
+        return flagBits.map((bit, index) => (
+            <span
+                key={flagNames[index]}
+                className={`flag ${bit === '1' ? 'set' : ''}`} // Apply 'set' class if bit is 1
+                title={flagNames[index]}
+            >
+                {flagNames[index]}
+            </span>
+        ));
+    };
+
     useEffect(() => {
         // If the PC is not the initial address and the PC has changed
         if (PC !== 0x8000 && PC !== prevPC) {
@@ -24,6 +42,7 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
 
             // Get the disassembled operation details
             const operation = cpu.dissassemble(opcode);
+            console.debug(operation);
 
             // Get the current number of cycles
             const cycles = cpu.getCycles();
@@ -39,8 +58,8 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
             <div className="trace-header">
                 <div title="Program Counter">PC</div>
                 {/* <div title="Instruction">Instr</div> */}
+                <div title="Instruction">Instr</div>
                 <div title="Operand">Opnd</div>
-                <div title="Disassembly">Diss</div>
                 <div title="Accumulator">A</div>
                 <div title="Index Register X">X</div>
                 <div title="Index Register Y">Y</div>
@@ -53,13 +72,13 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
                     <div className="trace-row" key={index}>
                         <div>{`0x${operation.PC.toString(16).toUpperCase().padStart(4, '0')}`}</div>
                         {/* <div>{`0x${operation.opcode.toString(16).toUpperCase()}`}</div> */}
-                        <div title={`0x${operation.opcode.toString(16).toUpperCase()}`}>{operation.name}</div>
-                        <div>{operation.operand}</div>
+                        <div className="instruction" title={`0x${operation.opcode.toString(16).toUpperCase()}`}>{operation.name}</div>
+                        <div className="operand">{operation.operand}</div>
                         <div>{`0x${operation.A.toString(16).toUpperCase()}`}</div>
                         <div>{`0x${operation.X.toString(16).toUpperCase()}`}</div>
                         <div>{`0x${operation.Y.toString(16).toUpperCase()}`}</div>
                         <div>{`0x${operation.SP.toString(16).toUpperCase()}`}</div>
-                        <div>{`${operation.P.toString(2).padStart(8, '0')}`}</div>
+                        <div>{formatFlags(operation.P)}</div>
                         <div>{`${operation.cycles}`}</div>
                     </div>
                 ))}
