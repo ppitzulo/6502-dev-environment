@@ -1,6 +1,6 @@
 import { StreamParser, StreamLanguage } from '@codemirror/language';
 import { LanguageSupport, syntaxHighlighting, HighlightStyle } from '@codemirror/language';
-import {tags as t } from '@lezer/highlight';
+import { tags as t } from '@lezer/highlight';
 
 // Define a StreamParser for mos6502
 const mos6502Parser: StreamParser<unknown> = {
@@ -27,13 +27,27 @@ const mos6502Parser: StreamParser<unknown> = {
       return 'meta'; // assembler directives
     }
 
-
+    // Match labels
+    if (/[a-zA-Z_]/.test(ch) && stream.match(/^[\w\d_]*:/)) {
+      return 'label'; // Highlight labels
+    }
 
     if (/[a-zA-Z]/.test(ch)) {
       stream.eatWhile(/\w/); // Continue eating word characters
       return 'keyword'; // opcodes
     }
 
+    // Match immediate values
+    if (ch === '#' && stream.match(/\d+/)) {
+      return 'number'; // Highlight immediate numbers
+    }
+
+    // Match hexadecimal numbers
+    if (ch === '$' && stream.match(/[0-9a-fA-F]+/)) {
+      return 'number'; // Highlight hexadecimal numbers
+    }
+
+    // Match decimal numbers
     if (/\d/.test(ch)) {
       stream.eatWhile(/\d/); // Continue eating digits
       return 'number';
@@ -53,6 +67,7 @@ const mos6502Highlighting = HighlightStyle.define([
   { tag: t.meta, color: '#080' },
   { tag: t.keyword, color: '#00f' },
   { tag: t.number, color: '#f00' },
+  { tag: t.labelName, color: '#ff8c00' }, // Style for labels
 ]);
 
 // Language support function
