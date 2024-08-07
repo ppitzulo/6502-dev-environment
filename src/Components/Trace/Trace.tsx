@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Trace.css';
 import { Operation } from '../../Interfaces/AssemblyStateInterfaces';
 
@@ -14,6 +14,7 @@ interface TraceProps {
 
 const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
     const [prevPC, setPrevPC] = useState<number>(PC); // Track previous PC to make sure we don't add the value at the inital address to the trace log
+    const traceRef = useRef<HTMLDivElement | null>(null);
 
     const formatFlags = (flags: number) => {
         // Flags are typically represented in the order: N, V, -, B, D, I, Z, C
@@ -53,6 +54,13 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
         setPrevPC(PC);
     }, [PC]);
 
+    useEffect(() => {
+        // Scroll to the bottom of the trace log
+        if (traceRef.current) {
+            traceRef.current.scrollTop = traceRef.current.scrollHeight;
+        }
+    }, [traceLog]);
+
     return (
         <div className="trace">
             <div className="trace-header">
@@ -67,7 +75,7 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
                 <div title="Flags (N, O, -, B, D, I, Z, C)">Flags</div>
                 <div title="Cycles">Cyc</div>
             </div>
-            <div className="trace-body">
+            <div className="trace-body" ref={traceRef}>
                 {traceLog.map((operation, index) => (
                     <div className="trace-row" key={index}>
                         <div>{`0x${operation.PC.toString(16).toUpperCase().padStart(4, '0')}`}</div>

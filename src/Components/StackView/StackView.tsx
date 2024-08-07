@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './StackView.css';
 
 interface StackProps {
@@ -8,6 +8,7 @@ interface StackProps {
 
 const StackView = ({ bus, SP }: StackProps) => {
   const [stackContents, setStackContents] = useState<number[]>([]);
+  const stackPointerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const readStack = () => {
@@ -20,12 +21,17 @@ const StackView = ({ bus, SP }: StackProps) => {
 
     readStack();
 
-    // Optionally, you can set an interval to update the stack contents periodically
     const intervalId = setInterval(readStack, 1000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, [bus]);
+
+  useEffect(() => {
+    if (stackPointerRef.current) {
+      stackPointerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+  , [stackContents]);
 
   return (
     <div className="stack">
@@ -37,7 +43,7 @@ const StackView = ({ bus, SP }: StackProps) => {
         {stackContents.slice().reverse().map((value, index) => {
           const address = 0x01FF - index;
           return (
-            <div className={`stack-row ${address === (0x0100 + SP) ? 'highlight' : ''}`} key={index}>
+            <div className={`stack-row ${address === (0x0100 + SP) ? 'highlight' : ''}`} key={index} ref={address === (0x0100 + SP) ? stackPointerRef : null}>
               <div className="address">
                 {`0x${address.toString(16).toUpperCase()}`}
               </div>
