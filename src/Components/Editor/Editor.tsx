@@ -43,9 +43,10 @@ start:
 
   const [assemblyCode, setAssemblyCode] = useState<string>(initialAssemblyCode);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [theme, setTheme] = useState<ThemeKey>(() => {
-    const savedTheme = localStorage.getItem('theme') as ThemeKey;
-    return savedTheme || 'vscode-dark';
+  const [settings, setSettings] = useState<{ theme: ThemeKey, vimMode: boolean }>(() => {
+    const savedTheme = (localStorage.getItem('theme') as ThemeKey) || 'vscode-dark';
+    const savedVimMode = localStorage.getItem('vimMode') === 'true'; // Retrieve Vim mode
+    return { theme: savedTheme, vimMode: savedVimMode };
   });
 
   const handleChange = (value: string) => {
@@ -119,20 +120,25 @@ start:
       <div className={`settings ${isSettingsOpen ? 'settings-open' : ''}`}>
         <FontAwesomeIcon className="settings-icon" icon={faCog} onClick={toggleSettingsMenu} />
         {isSettingsOpen && (
-          <div className="settings-menu">
+          // <div className="settings-menu">
+          <>
             <div className="settings-menu-item">
               <label>Theme: </label>
               <select
                 onChange={(e) => {
-                  const theme:ThemeKey = e.target.value as ThemeKey;
+                  const selectedTheme:ThemeKey = e.target.value as ThemeKey;
 
                   // Save theme to local storage
-                  localStorage.setItem('theme', theme);
+                  localStorage.setItem('theme', selectedTheme);
 
                   // Update the state
-                  setTheme(theme);
+                  setSettings((prevSettings) => {
+                    const newSettings = { ...prevSettings, theme: selectedTheme };
+                    localStorage.setItem('theme', newSettings.theme); // Save theme to local storage
+                    return newSettings;
+                  })
                 }}
-                defaultValue={localStorage.getItem('theme') || 'vscode-dark'}
+                value={settings.theme}
               >
                 {Object.keys(themes).map((themeKey) => (
                   <option key={themeKey} value={themeKey}>
@@ -141,10 +147,25 @@ start:
                 ))}
               </select>
             </div>
-          </div>
+            <div className="settings-menu-item">
+              <label>Vim Mode: </label>
+              <input
+                type="checkbox"
+                checked={settings.vimMode}
+                onChange={() => {
+                  setSettings((prevSettings) => {
+                    const newSettings = { ...prevSettings, vimMode: !prevSettings.vimMode };
+                    localStorage.setItem('vimMode', String(newSettings.vimMode)); // Save Vim mode to local storage
+                    return newSettings;
+                  });
+                }}
+              />
+            </div>
+            </>
+          // </div>
         )}
       </div>
-      <CodeMirror value={assemblyCode} theme={themes[theme]} extensions={ [vim(), mos6502()]}  onChange={handleChange} height="100%"/>
+      <CodeMirror value={assemblyCode} theme={themes[settings.theme]} extensions={ [settings.vimMode ? vim() : [], mos6502()]}  onChange={handleChange} height="100%"/>
     </div>
   );
 };
