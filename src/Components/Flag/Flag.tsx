@@ -11,7 +11,6 @@ const extractFlagLabel = (flag: string): string => {
     return label.charAt(0).toUpperCase() + label.slice(1);
 };
 
-
 const Flag: React.FC<FlagProps> = ({ label, value, onToggle }) => {
     const getColor = (flag: boolean) => flag ? '#90ee90' : 'red';
 
@@ -24,7 +23,7 @@ const Flag: React.FC<FlagProps> = ({ label, value, onToggle }) => {
             >
                 {label.charAt(0).toUpperCase()}
             </span>
-            <span className="value" style={{ color: getColor(value) }}>{value ? 'True' : 'False'}</span>
+            <span className="value" style={{ color: getColor(value) }}>{value ? 'T' : 'F'}</span>
         </div>
     );
 };

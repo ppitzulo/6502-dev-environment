@@ -43,7 +43,6 @@ const Trace = ({ cpu, bus, PC, traceLog, setTraceLog }: TraceProps) => {
 
             // Get the disassembled operation details
             const operation = cpu.dissassemble(opcode);
-            console.debug(operation);
 
             // Get the current number of cycles
             const cycles = cpu.getCycles();

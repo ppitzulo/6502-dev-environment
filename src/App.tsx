@@ -7,6 +7,7 @@ import './App.css';
 import { AssemblyState, Operation } from './Interfaces/AssemblyStateInterfaces';
 import StackView from './Components/StackView/StackView';
 import EmulatorControls from './Components/EmulatorControls/EmulatorControls';
+import MemoryView from './Components/MemoryView/MemoryView';
 
 const App: React.FC = () => {
   const wasmResults = useWasm();
@@ -20,6 +21,7 @@ const App: React.FC = () => {
     isAssembled: false,
     isError: false,
   });
+  const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -76,7 +78,6 @@ const App: React.FC = () => {
           await new Promise((resolve) => setTimeout(resolve, 20)); // Delay for visualization
 
           if (opcode === 0x0) {
-            console.debug("Opcode is 0x00, stopping execution");
             return;
           }
         }
@@ -104,6 +105,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      {bus !== null && <MemoryView bus={bus} isVisible={isVisible} setIsVisible={setIsVisible}/> }
       <div className="emulator">
         {wasmResults.isReady && <Editor bus={bus} wasmModule={wasmModule} assemblyState={assemblyState} setAssemblyState={setAssemblyState} setMessage={setMessage} />}
       </div>
@@ -113,6 +115,7 @@ const App: React.FC = () => {
             stepCpu={stepCpu}
             resetCpu={resetCpu}
             toggleSubmitted={toggleSubmitted}
+            toggleIsVisible={() => setIsVisible(!isVisible)}
             assemblyState={assemblyState}
             message={message}
           />
