@@ -56,11 +56,35 @@ const App: React.FC = () => {
 
   const stepCpu = () => {
     if (cpu) {
-      cpu.step();
-      setRegisters(cpu.getRegisters());
+        // Step 1: Capture the current state and PC before executing the instruction
+        const currentRegisters = cpu.getRegisters(); 
+        const opcode = bus.readMemory(currentRegisters['PC']); 
+        const disassembledOp = cpu.dissassemble(opcode);
+      console.log(disassembledOp)
+        // Step 2: Log the state before execution
+        setTraceLog(prevLog => [
+            ...prevLog,
+            {
+              A: disassembledOp.A,
+              X: disassembledOp.X,
+              Y: disassembledOp.Y,
+              P: disassembledOp.P,
+              SP: disassembledOp.SP,
+              PC: currentRegisters['PC'],
+              opcode: disassembledOp.opcode,
+              name: disassembledOp.name,
+              operand: disassembledOp.operand,
+              cycles: currentRegisters.CYC,
+            }
+        ]);
 
+        // Step 3: Execute the instruction
+        cpu.step(); 
+
+        // Step 4: Update the registers after execution
+        setRegisters(cpu.getRegisters()); 
     }
-  };
+};
 
   // Run the CPU continuously
   const runCpu = () => {
@@ -121,7 +145,7 @@ const App: React.FC = () => {
           />
           <RegisterView registers={registers} setRegisters={setRegisters} cpu={cpu} />
         </div>
-      {registers && <Trace cpu={cpu} bus={bus} PC={registers.PC} traceLog={traceLog} setTraceLog={setTraceLog} />}
+      {registers && <Trace traceLog={traceLog} />}
       {bus && <StackView bus={bus} SP={registers.SP} />}
     </div>
   );

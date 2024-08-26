@@ -6,22 +6,19 @@ interface FlagProps {
     onToggle: () => void;
 }
 
-const extractFlagLabel = (flag: string): string => {
-    const label = flag.replace(/Flag$/, '');
-    return label.charAt(0).toUpperCase() + label.slice(1);
-};
-
 const Flag: React.FC<FlagProps> = ({ label, value, onToggle }) => {
     const getColor = (flag: boolean) => flag ? '#90ee90' : 'red';
+
+    const formattedLabel = label.replace(/([a-z])([A-Z])/g, '$1 $2'); // Add space between lowercase and uppercase character
 
     return (
         <div className="register" onClick={onToggle}>
             <span
                 data-tooltip-id="register-tooltip"
-                data-tooltip-content={`${extractFlagLabel(label)} Flag`}
+                data-tooltip-content={formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1)}
                 className="label"
             >
-                {label.charAt(0).toUpperCase()}
+                {formattedLabel.charAt(0).toUpperCase()}
             </span>
             <span className="value" style={{ color: getColor(value) }}>{value ? 'T' : 'F'}</span>
         </div>

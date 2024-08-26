@@ -12,13 +12,16 @@
     top: 4px;
     right: 5px;
     z-index: 1;
-    cursor: pointer;
     padding: 1rem;
     border-radius: 5px;
     color: white;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.fa-gear {
+    cursor: pointer;
 }
 
 .settings-open {

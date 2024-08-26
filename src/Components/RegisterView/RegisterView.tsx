@@ -72,7 +72,7 @@ const RegisterView = ({ registers, setRegisters }: { registers: RegisterState, s
             <div className="register-section">
                 <Tooltip id='register-tooltip' place='top' />
 
-                {(['A', 'X', 'Y', 'PC', 'SP'] as const).map((reg) => (
+                {(['A', 'X', 'Y', 'SP', 'PC'] as const).map((reg) => (
                     <Register
                         key={reg}
                         label={reg}
@@ -85,7 +85,7 @@ const RegisterView = ({ registers, setRegisters }: { registers: RegisterState, s
             </div>
 
             <div className="flag-section">
-                {(['negativeFlag', 'overflowFlag', 'breakCommandFlag', 'decimalModeFlag', 'interruptDisableFlag', 'zeroFlag', 'carryFlag'] as const).map((flag) => (
+                {(['negative', 'overflow', 'breakCommand', 'decimalMode', 'interruptDisable', 'zero', 'carry'] as const).map((flag) => (
                     <Flag
                         key={flag}
                         label={flag}

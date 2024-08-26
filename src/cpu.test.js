@@ -82,6 +82,7 @@ describe('CPU Tests', () => {
                         Y: test.initial.y,
                         PC: test.initial.pc,
                         SP: test.initial.s,
+                        CYC: 0,
                     };
                     loadProcessorStatus(registers, test.initial.p);
                     
@@ -94,7 +95,7 @@ describe('CPU Tests', () => {
                     
                     
                     cpu.setRegisters(registers);
-                    cpu.run();
+                    cpu.step();
                     // cpu.run(test.cycles.length);
                     
                     

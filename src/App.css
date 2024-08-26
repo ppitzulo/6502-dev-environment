@@ -14,7 +14,7 @@
     "emulator emulator emulator stack-view"
     "emulator-controls emulator-controls emulator-controls stack-view";
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 7rem;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
 }
 

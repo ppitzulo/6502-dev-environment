@@ -1,7 +1,8 @@
 .register-display {
-    margin: 0 20px;
+    margin: 20px 20px;
     justify-self: center;
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
 }
 
@@ -13,5 +14,4 @@
 .register-section, .flag-section {
     display: flex;
     gap: 10px;
-    margin: 20px 0;
 }

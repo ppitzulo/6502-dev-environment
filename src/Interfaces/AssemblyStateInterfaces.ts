@@ -10,13 +10,13 @@ type RegisterState = {
   Y: number;
   PC: number;
   SP: number;
-  carryFlag: boolean;
-  zeroFlag: boolean;
-  interruptDisableFlag: boolean;
-  decimalModeFlag: boolean;
-  breakCommandFlag: boolean;
-  overflowFlag: boolean;
-  negativeFlag: boolean;
+  carry: boolean;
+  zero: boolean;
+  interruptDisable: boolean;
+  decimalMode: boolean;
+  breakCommand: boolean;
+  overflow: boolean;
+  negative: boolean;
 };
 
 interface Operation {
@@ -28,7 +28,7 @@ interface Operation {
     P: number;
     SP: number;
     PC: number;
-    status: number;
+    // status: number;
     cycles: number;
     operand: string;
   }
