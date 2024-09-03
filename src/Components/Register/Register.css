@@ -29,10 +29,11 @@
 
 .register-section input {
     border: none;
-    width: 3.5rem;
+    width: 4rem;
     text-align: center;
+    font-size: 1.3rem;
 }
 
 input.program-counter {
-    width: 5rem;
+    width: 5.5rem;
 }
