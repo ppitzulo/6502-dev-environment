@@ -2,6 +2,9 @@
 
 This project is a web-based frontend for a 6502 assembly development environment, providing a rich, interactive interface for writing, debugging, and running 6502 assembly code.
 
+![image](https://github.com/user-attachments/assets/64812904-a28c-4f13-8388-9b58662bbf62)
+
+
 ## Features
 
 - **Interactive 6502 Emulator**: Run, step through, and reset 6502 assembly code in real-time.
