@@ -33,15 +33,8 @@ const themes = {
 };
 
 const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }: { bus: any, wasmModule: any, assemblyState: AssemblyState, setAssemblyState: React.Dispatch<React.SetStateAction<AssemblyState>>, setMessage: React.Dispatch<React.SetStateAction<string | null>> }) => {
-  const initialAssemblyCode = `.org $0800
-ldx #0
-start:
-  stx $0200
-  inx
-  stx $0201
-  brk`;
 
-  const [assemblyCode, setAssemblyCode] = useState<string>(initialAssemblyCode);
+  const [assemblyCode, setAssemblyCode] = useState<string>('');
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [settings, setSettings] = useState<{ theme: ThemeKey, vimMode: boolean }>(() => {
     const savedTheme = (localStorage.getItem('theme') as ThemeKey) || 'vscode-dark';
