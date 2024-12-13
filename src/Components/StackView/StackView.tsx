@@ -26,12 +26,13 @@ const StackView = ({ bus, SP }: StackProps) => {
     return () => clearInterval(intervalId);
   }, [bus]);
 
-  useEffect(() => {
-    if (stackPointerRef.current) {
-      stackPointerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-  , [stackContents]);
+  // Commenting this out for now, as it causes the stack to scroll to the pointer every time someone scrolls ;_;
+  // useEffect(() => {
+  //   if (stackPointerRef.current) {
+  //     stackPointerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  //   }
+  // }
+  // , [stackContents]);
 
   return (
     <div className="stack">

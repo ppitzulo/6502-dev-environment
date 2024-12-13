@@ -11,12 +11,12 @@
 }
 
 .memory-view {
+    overflow: hidden;
     background-color: #1c1c1c;
     border: 1px solid white;
     padding: 1rem;
     width: 30rem;
     border-radius: 5px;
-    overflow-y: scroll;
 }
 
 .memory-view h2 {
@@ -36,6 +36,7 @@
 }
 
 .memory-view-controls {
+
     display: flex;
     gap: 2rem;
     justify-content: center;

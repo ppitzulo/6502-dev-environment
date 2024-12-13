@@ -60,7 +60,7 @@ const App: React.FC = () => {
         const currentRegisters = cpu.getRegisters(); 
         const opcode = bus.readMemory(currentRegisters['PC']); 
         const disassembledOp = cpu.dissassemble(opcode);
-      console.log(disassembledOp)
+
         // Step 2: Log the state before execution
         setTraceLog(prevLog => [
             ...prevLog,

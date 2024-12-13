@@ -12,10 +12,12 @@ const RegisterView = ({ registers, setRegisters }: { registers: RegisterState, s
 
 
     const toggleFlag = (flagName: keyof RegisterState) => () => {
-        setRegisters(prevRegisters => ({
-            ...prevRegisters,
-            [flagName]: !prevRegisters[flagName],
-        }));
+        const updatedRegisters = {
+            ...registers,
+            [flagName]: !registers[flagName],
+        };
+
+        setRegisters(updatedRegisters);
     };
 
     const handleEdit = (event: ChangeEvent<HTMLInputElement>, registerName: keyof RegisterState) => {
@@ -85,7 +87,7 @@ const RegisterView = ({ registers, setRegisters }: { registers: RegisterState, s
             </div>
 
             <div className="flag-section">
-                {(['negative', 'overflow', 'breakCommand', 'decimalMode', 'interruptDisable', 'zero', 'carry'] as const).map((flag) => (
+                {(['negativeFlag', 'overflowFlag', 'breakCommandFlag', 'decimalModeFlag', 'interruptDisableFlag', 'zeroFlag', 'carryFlag'] as const).map((flag) => (
                     <Flag
                         key={flag}
                         label={flag}
