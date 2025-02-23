@@ -41,6 +41,7 @@ const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }
     const savedVimMode = localStorage.getItem('vimMode') === 'true'; // Retrieve Vim mode
     return { theme: savedTheme, vimMode: savedVimMode };
   });
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
   const handleChange = (value: string) => {
     setAssemblyCode(value);
@@ -60,7 +61,7 @@ const Editor = ({ bus, wasmModule, assemblyState, setAssemblyState, setMessage }
     const handleSubmit = async () => {
       if (assemblyState.isSubmitted) {
         try {
-          const response = await fetch('http://localhost:3001/assemble', {
+          const response = await fetch(`${API_URL}/assemble`, {
             method: 'POST',
             headers: {
               'Content-Type': 'text/plain',
